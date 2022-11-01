@@ -14,42 +14,42 @@ export interface CarterPayload {
 }
 
 export interface CarterData {
-  input: string,
+  input: string;
   triggers: {
-    type: string,
-    score: number,
+    type: string;
+    score: number;
     entities: {
-      confidence: number,
-      label: string,
-      word: string
-    }[]
-  }[],
-  question: boolean,
+      confidence: number;
+      label: string;
+      word: string;
+    }[];
+  }[];
+  question: boolean;
   output: {
-    text: string,
-    supplier: string,
-    voice: string,
-  },
+    text: string;
+    supplier: string;
+    voice: string;
+  };
   sentiment: {
     input: {
-      label: string,
-      confidence: number,
-    },
+      label: string;
+      confidence: number;
+    };
     output: {
-      label: string,
-      confidence: number,
-    },
+      label: string;
+      confidence: number;
+    };
     conversation: {
-      label: string,
-      confidence: number,
-    }
-  },
-  time_takem: number,
-  credits_used: number,
-  tid: string
+      label: string;
+      confidence: number;
+    };
+  };
+  time_takem: number;
+  credits_used: number;
+  tid: string;
 }
 
 export interface CarterQueryOptions {
-  uuid?: string,
-  scene?: string
+  uuid?: string;
+  scene?: string;
 }

@@ -48,24 +48,24 @@ export class Carter {
    * Returns an audio link for any given text input using Carter's speak endpoint.
    */
   getVoiceLink(text: string): string {
-    return `https://api.carterapi.com/v0/speak/${this.apiKey}/${text}`
+    return `https://api.carterapi.com/v0/speak/${this.apiKey}/${text}`;
   }
 
   /**
    * Downvote a Carter response by passing in the CarterResponse object from Carter.say()
    */
   async downvote(carterResponse: CarterJSResponse): Promise<boolean> {
-    const response = await fetch("https://api.carterapi.com/v0/downvote", {
-      method: "POST",
+    const response = await fetch('https://api.carterapi.com/v0/downvote', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         api_key: this.apiKey,
         tid: carterResponse.data.tid,
-      })
-    })
-    return response.ok
+      }),
+    });
+    return response.ok;
   }
 }
