@@ -13,7 +13,8 @@
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "docs": "npx typedoc --out docs src"
   },
   "keywords": [
     "carter",
@@ -38,7 +39,8 @@
     "lib/**/*"
   ],
   "dependencies": {
-    "node-fetch": "^3.2.10",
+    "typedoc": "^0.23.19",
+    "typedoc-plugin-missing-exports": "^1.0.0",
     "uuid": "^9.0.0"
   }
 }
