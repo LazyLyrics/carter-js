@@ -55,7 +55,7 @@ export interface CarterQueryOptions {
 }
 
 export interface CarterConversationEntry {
-  isoString: string,
-  request: CarterPayload,
-  responseData: CarterData
+  isoString: string;
+  request: CarterPayload;
+  responseData: CarterData;
 }
