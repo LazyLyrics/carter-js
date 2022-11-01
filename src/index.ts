@@ -1,6 +1,7 @@
 // import fetch from 'node-fetch'
-import type { CarterPayload, CarterJSResponse, CarterQueryOptions } from './types';
+import type { CarterPayload, CarterJSResponse, CarterQueryOptions, CarterConversationEntry } from './types';
 import { v1 as uuidv1 } from 'uuid';
+import { DateTime } from 'luxon'
 
 export const Greeter = (name: string) => `Hello ${name}!`;
 
@@ -9,9 +10,12 @@ export const Greeter = (name: string) => `Hello ${name}!`;
  */
 export class Carter {
   apiKey: string;
+  history: CarterConversationEntry[]
+  latest: CarterConversationEntry | undefined;
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
+    this.history = []
   }
 
   /**
@@ -20,7 +24,7 @@ export class Carter {
   async say(query: string, options?: CarterQueryOptions | undefined): Promise<CarterJSResponse> {
     const payload: CarterPayload = {
       api_key: this.apiKey,
-      query,
+      query
     };
     if (options?.scene) {
       payload.scene = options.scene;
@@ -35,13 +39,21 @@ export class Carter {
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' },
     });
-    return {
+    const returnObject: CarterJSResponse = {
       data: await response.json(),
       ok: response.ok,
       statusCode: response.status,
       statusMessage: response.statusText,
-      payload,
+      payload
     };
+    const newInteraction = {
+      isoString: DateTime.now().toISO(),
+      request: payload,
+      responseData: returnObject.data
+    }
+    this.history.unshift(newInteraction)
+    this.latest = newInteraction
+    return returnObject
   }
 
   /**

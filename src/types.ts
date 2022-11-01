@@ -53,3 +53,9 @@ export interface CarterQueryOptions {
   uuid?: string;
   scene?: string;
 }
+
+export interface CarterConversationEntry {
+  isoString: string,
+  request: CarterPayload,
+  responseData: CarterData
+}
