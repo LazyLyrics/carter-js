@@ -25,7 +25,7 @@
   const reply_voice = response.data.output.voice
 ```
 
-`carter.say()` sends the fetch request, destructures the useful elements of the response and returns a `CarterResponse` object which looks like this:
+`carter.say()` sends the fetch request, extracts the useful elements of the response and returns a `CarterResponse` object which looks like this:
 
 ```js
 CarterResponse {
