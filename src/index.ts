@@ -34,7 +34,7 @@ export class Carter {
       ok: response.ok,
       statusCode: response.status,
       statusMessage: response.statusText,
-      payload,
+      payload: payload,
     };
   }
 }
