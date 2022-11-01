@@ -2,6 +2,8 @@
 
 `carter-js` provides a set of utility functions for interacting with your [Carter](https://www.carterapi.com/) agent. In order for `carter-js` to work you'll need to create a [Carter](https://www.carterapi.com/) agent.
 
+**Please note:** carter-js is in its infancy and errors are likely. If you experience any issues please feel free to open a [github](https://github.com/LazyLyrics/carter-js) issue in order to help carter-js improve.
+
 ## Installation
 
 ```shellscript
