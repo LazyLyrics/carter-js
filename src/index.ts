@@ -14,7 +14,7 @@ export class Carter {
   async say(query: string, uuid?: string, scene?: string): Promise<CarterResponse> {
     const payload: CarterPayload = {
       api_key: this.apiKey,
-      query: query,
+      query,
     };
     if (scene) {
       payload.scene = scene;
@@ -34,7 +34,7 @@ export class Carter {
       ok: response.ok,
       statusCode: response.status,
       statusMessage: response.statusText,
-      payload: payload,
+      payload
     };
   }
 }
