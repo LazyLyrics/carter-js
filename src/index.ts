@@ -1,4 +1,3 @@
-// import fetch from 'node-fetch'
 import {
   CarterPayload,
   CarterInteraction,
@@ -9,8 +8,6 @@ import {
 } from './types';
 import { v1 as uuidv1 } from 'uuid';
 import { DateTime } from 'luxon';
-
-export const Greeter = (name: string) => `Hello ${name}!`;
 
 /**
  * Contains methods for interacting with Carter.
@@ -81,9 +78,9 @@ export class Carter {
   async downvote(target: CarterInteraction | (CarterConversationEntry | undefined) | string): Promise<boolean> {
     let body:
       | {
-          api_key: string;
-          tid: string;
-        }
+        api_key: string;
+        tid: string;
+      }
       | {} = {};
     if (typeof target === 'string') {
       body = {
@@ -112,5 +109,48 @@ export class Carter {
       body: JSON.stringify(body),
     });
     return response.ok;
+  }
+
+  /** Returns the response time of your last interaction with Carter */
+  lastResponseTime(): number | undefined {
+    return this.latest()?.interaction.data.time_taken
+  }
+
+  /**
+   * Returns the average response time for a given number of minutes if given. If not given, the average response time for your the entire history is returned. If there is either no history or no interactions in the given time period, the return value will be undefined.
+   */
+  averageResponseTime(minutes?: number): number | undefined {
+    if (minutes) {
+      if (this.history.length != 0) {
+        const filteredArray = this.history.filter((value) => {
+          const dt = DateTime.fromISO(value.isoTimestamp)
+          const lowBound = DateTime.now().minus({ minutes })
+          return dt > lowBound
+        })
+        if (filteredArray.length > 0) {
+          const times = filteredArray.map((value) => {
+            return value.interaction.data.time_taken
+          })
+          const total = times.reduce((a, b) => a + b, 0)
+          const average = total / filteredArray.length
+          return Math.round(average * 100) / 100
+        } else {
+          return undefined
+        }
+      } else {
+        return undefined
+      }
+    } else {
+      if (this.history.length > 0) {
+        const times = this.history.map((value) => {
+          return value.interaction.data.time_taken
+        })
+        const total = times.reduce((a, b) => a + b, 0)
+        const average = total / this.history.length
+        return Math.round(average * 100) / 100
+      } else {
+        return undefined
+      }
+    }
   }
 }

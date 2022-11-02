@@ -1,12 +1,8 @@
-import { Greeter, Carter } from '../index';
+import { Carter } from '../index';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 jest.setTimeout(10000);
-
-test('Greeter Test', () => {
-  expect(Greeter('LazyLyrics')).toBe('Hello LazyLyrics!');
-});
 
 test('Say() test without options', async () => {
   const apiKey = process.env.CARTER_API_KEY;

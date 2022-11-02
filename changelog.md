@@ -2,6 +2,17 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
+## [Unreleased]
+
+### Added
+
+#### Timing functions
+
+You can now extract response time data from your conversation history. As well as being able to pull the response time data from an individual `CarterInteraction` you are now able to use:
+
+- `Carter.lastResponseTime()` - extracts the response time from your most recent interaction.
+- `Carter.averageResponseTime()` - Calculates the average response time of interactions with your agent, can accept an optional `minutes` parameter
+
 ## [1.4.1] - 2022-11-02
 
 ### Fixed
