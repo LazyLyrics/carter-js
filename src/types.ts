@@ -7,7 +7,7 @@ export interface CarterInteraction {
 }
 
 export function isACarterInteraction(obj: any): obj is CarterInteraction {
-  return "data" in obj && "ok" in obj && "statusCode" in obj && "statusMessage" in obj && "payload" in obj
+  return 'data' in obj && 'ok' in obj && 'statusCode' in obj && 'statusMessage' in obj && 'payload' in obj;
 }
 
 export interface CarterPayload {
@@ -64,5 +64,5 @@ export interface CarterConversationEntry {
 }
 
 export function isAConversationEntry(obj: any): obj is CarterConversationEntry {
-  return "isoString" in obj && 'request' in obj && "responseData" in obj
+  return 'isoString' in obj && 'request' in obj && 'responseData' in obj;
 }

@@ -1,4 +1,4 @@
-import { Carter } from '../index'
+import { Carter } from '../index';
 
 test('Downvote Test w Interaction Object', async () => {
   const apiKey = process.env.CARTER_API_KEY;
