@@ -48,7 +48,7 @@ export interface CarterData {
       confidence: number;
     };
   };
-  time_takem: number;
+  time_taken: number;
   credits_used: number;
   tid: string;
 }
