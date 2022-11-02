@@ -1,5 +1,5 @@
 // import fetch from 'node-fetch'
-import type { CarterPayload, CarterJSResponse, CarterQueryOptions, CarterConversationEntry } from './types';
+import { CarterPayload, CarterInteraction, CarterPayloadOptions, CarterConversationEntry, isACarterInteraction, isAConversationEntry } from './types';
 import { v1 as uuidv1 } from 'uuid';
 import { DateTime } from 'luxon';
 
@@ -21,7 +21,7 @@ export class Carter {
   /**
    * Say something to carter, takes a query parameter containing your message, as well as an options object (optional). Will create a uuid automatically if one is not provided.
    */
-  async say(query: string, options?: CarterQueryOptions | undefined): Promise<CarterJSResponse> {
+  async say(query: string, options?: CarterPayloadOptions | undefined): Promise<CarterInteraction> {
     const payload: CarterPayload = {
       api_key: this.apiKey,
       query,
@@ -39,21 +39,20 @@ export class Carter {
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' },
     });
-    const returnObject: CarterJSResponse = {
+    const interaction: CarterInteraction = {
       data: await response.json(),
       ok: response.ok,
       statusCode: response.status,
       statusMessage: response.statusText,
       payload,
     };
-    const newInteraction = {
-      isoString: DateTime.now().toISO(),
-      request: payload,
-      responseData: returnObject.data,
+    const newConversationEntry: CarterConversationEntry = {
+      isoTimestamp: DateTime.now().toISO(),
+      interaction
     };
-    this.history.unshift(newInteraction);
-    this.latest = newInteraction;
-    return returnObject;
+    this.history.unshift(newConversationEntry);
+    this.latest = newConversationEntry;
+    return interaction;
   }
 
   /**
@@ -66,17 +65,36 @@ export class Carter {
   /**
    * Downvote a Carter response by passing in the CarterResponse object from Carter.say()
    */
-  async downvote(carterResponse: CarterJSResponse): Promise<boolean> {
+  async downvote(target: CarterInteraction | CarterConversationEntry | string): Promise<boolean> {
+    let body: {
+      api_key: string,
+      tid: string
+    } | {} = {};
+    if (isACarterInteraction(target)) {
+      body = {
+        api_key: this.apiKey,
+        tid: target.data.tid,
+      }
+    } else if (isAConversationEntry(target)) {
+      body = {
+        api_key: this.apiKey,
+        tid: target.interaction.data.tid,
+      }
+    } else if (typeof target === "string") {
+      body = {
+        api_key: this.apiKey,
+        tid: target
+      }
+    } else {
+      throw Error("Did not receive correct target, please ensure you passed the right type.")
+    }
     const response = await fetch('https://api.carterapi.com/v0/downvote', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        api_key: this.apiKey,
-        tid: carterResponse.data.tid,
-      }),
+      body: JSON.stringify(body),
     });
     return response.ok;
   }

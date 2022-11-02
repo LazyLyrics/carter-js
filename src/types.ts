@@ -1,9 +1,13 @@
-export interface CarterJSResponse {
+export interface CarterInteraction {
   data: CarterData;
+  payload: CarterPayload;
   ok: boolean;
   statusCode: number;
   statusMessage: string;
-  payload: CarterPayload;
+}
+
+export function isACarterInteraction(obj: any): obj is CarterInteraction {
+  return "data" in obj && "ok" in obj && "statusCode" in obj && "statusMessage" in obj && "payload" in obj
 }
 
 export interface CarterPayload {
@@ -49,13 +53,16 @@ export interface CarterData {
   tid: string;
 }
 
-export interface CarterQueryOptions {
+export interface CarterPayloadOptions {
   uuid?: string;
   scene?: string;
 }
 
 export interface CarterConversationEntry {
-  isoString: string;
-  request: CarterPayload;
-  responseData: CarterData;
+  isoTimestamp: string;
+  interaction: CarterInteraction;
+}
+
+export function isAConversationEntry(obj: any): obj is CarterConversationEntry {
+  return "isoString" in obj && 'request' in obj && "responseData" in obj
 }
