@@ -2,7 +2,7 @@
 
 `carter-js` provides a set of utility functions for interacting with your [Carter](https://www.carterapi.com/) agent. In order for `carter-js` to work you'll need to create a [Carter](https://www.carterapi.com/) agent.
 
-**Please note:** carter-js is in its infancy and errors are likely. If you experience any issues please feel free to open a [github](https://github.com/LazyLyrics/carter-js) issue in order to help carter-js improve.
+**Please note:** carter-js is in its infancy and errors are likely. If you experience any issues please feel free to open a [GitHub](https://github.com/LazyLyrics/carter-js) issue or contact me through the [Carter](https://www.carterapi.com/) Discord server in order to help carter-js improve.
 
 ## Installation
 
@@ -16,7 +16,7 @@
   import { Carter } from 'carter-js'
 
   // Create a Carter object
-  const carter = Carter(YOUR_API_KEY)
+  const carter = new Carter(YOUR_API_KEY) // make sure to use the new keyword in order to create a Carter instance
 ```
 
 The Carter object contains all the necessary methods for interacting with your Carter agent. You'll need to provide your API key to create this. Make sure you keep this key secret while developing, as this key will allow anyone access to your agent.
@@ -30,7 +30,7 @@ The Carter object contains all the necessary methods for interacting with your C
   }
 
   // Send a query to your Carter agent
-  const response = carter.say("Hello", options)
+  const response = await carter.say("Hello", options)
   const reply_message = reponse.data.output.text
   const reply_voice = response.data.output.voice
 ```
@@ -81,7 +81,7 @@ Make your Carter agent say whatever you like through an audio link. When you sen
 ```js
   import { Carter } from 'carter-js'
 
-  const carter = Carter(YOUR_API_KEY)
+  const carter = new Carter(YOUR_API_KEY)
   const audioLink = carter.getAudioLink("Hello there, this your Carter agent speaking.")
 ```
 
@@ -94,7 +94,7 @@ As is outlined [here](https://carterapi.gitbook.io/carter-docs/api/downvote-agen
 ```js
   import { Carter } from 'carter-js'
 
-  const carter = Carter(YOUR_API_KEY)
+  const carter = new Carter(YOUR_API_KEY)
   const response = await carter.say("Hi Carter, say something that doesn't make sense please.")
   // Should this response not make sense, you can call the downvote function and pass this response object in. carter-js will take care of submitting the right information.
   const downvoted = await carter.downvote(response)
