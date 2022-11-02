@@ -4,7 +4,7 @@ All notable changes (from [1.4.0] onwards) will be documented here.
 
 ## [Unreleased]
 
-**Breaking Changes** Please note: there is a small breaking change in this release related to the `CarterConversationEntry` type. This is the object used in the `Carter.history` array. As I don't believe this feature is being used yet I have elected to make this a minor release.
+**Breaking Changes**:  please note there is a small breaking change in this release related to the `CarterConversationEntry` type. This is the object used in the `Carter.history` array. As I don't believe this feature is being used yet I have elected to make this a minor release.
 
 ### Added
 
