@@ -2,6 +2,12 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
+## [1.4.1] - 2022-11-02
+
+### Fixed
+
+- Fixed spelling error in `CarterData` object. Was "time_takem" now "time_taken"
+
 ## [1.4.0] - 2022-11-02
 
 **Breaking Changes**:  please note there is a small breaking change in this release related to the `CarterConversationEntry` type. This is the object used in the `Carter.history` array. As I don't believe this feature is being used yet I have elected to make this a minor release. There is also a deprecation I have chosen to include in a minor release for the same reason.
