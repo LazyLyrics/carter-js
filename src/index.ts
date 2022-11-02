@@ -11,11 +11,18 @@ export const Greeter = (name: string) => `Hello ${name}!`;
 export class Carter {
   apiKey: string;
   history: CarterConversationEntry[];
-  latest: CarterConversationEntry | undefined;
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
     this.history = [];
+  }
+
+  latest(): CarterConversationEntry | undefined {
+    if (this.history.length > 0) {
+      return this.history[0]
+    } else {
+      return undefined
+    }
   }
 
   /**
@@ -51,7 +58,6 @@ export class Carter {
       interaction
     };
     this.history.unshift(newConversationEntry);
-    this.latest = newConversationEntry;
     return interaction;
   }
 
@@ -65,12 +71,18 @@ export class Carter {
   /**
    * Downvote a Carter response by passing in the CarterResponse object from Carter.say()
    */
-  async downvote(target: CarterInteraction | CarterConversationEntry | string): Promise<boolean> {
+  async downvote(target: CarterInteraction | (CarterConversationEntry | undefined) | string): Promise<boolean> {
     let body: {
       api_key: string,
       tid: string
     } | {} = {};
-    if (isACarterInteraction(target)) {
+    if (typeof target === "string") {
+      body = {
+        api_key: this.apiKey,
+        tid: target
+      }
+    }
+    else if (isACarterInteraction(target)) {
       body = {
         api_key: this.apiKey,
         tid: target.data.tid,
@@ -80,12 +92,8 @@ export class Carter {
         api_key: this.apiKey,
         tid: target.interaction.data.tid,
       }
-    } else if (typeof target === "string") {
-      body = {
-        api_key: this.apiKey,
-        tid: target
-      }
-    } else {
+    }
+    else {
       throw Error("Did not receive correct target, please ensure you passed the right type.")
     }
     const response = await fetch('https://api.carterapi.com/v0/downvote', {

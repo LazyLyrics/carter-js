@@ -9,6 +9,7 @@ All notable changes (from [1.4.0] onwards) will be documented here.
 ### Added
 
 - `Carter.downvote()` can now accept 3 types of argument. It will accept a `CarterInteraction`, a `CarterConversationEntry` (the object stored in `Carter.history` array), or you can simply pass it a TID.
+- `Carter.latest()` is now a utility function which will return the most recent interaction. The `Carter.latest` property has been deprecated.
 
 ### Changed
 
@@ -30,3 +31,7 @@ CarterConversationEntry {
 ---
 
 - Updated docs
+
+### Deprecated
+
+- `Carter.latest` attribute has been removed and replaced by `Carter.latest()`. (See above)

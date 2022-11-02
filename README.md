@@ -128,4 +128,4 @@ CarterConversationEntry {
 
 **interaction**: A `CarterInteraction` object.
 
-This entire array is accessible in full, and is ordered with the most recent interaction at the front of the array. For convenience, you can also access `Carter.latest` which will always contain the most recent interaction.
+This entire array is accessible in full, and is ordered with the most recent interaction at the front of the array. For convenience, you can also invoke `Carter.latest()` which will return the most recent interaction.

@@ -8,7 +8,7 @@ test('Greeter Test', () => {
   expect(Greeter('LazyLyrics')).toBe('Hello LazyLyrics!');
 });
 
-test('Say Test 1', async () => {
+test('Say() test without options', async () => {
   const apiKey = process.env.CARTER_API_KEY;
   let carter: Carter;
   if (apiKey) {
@@ -20,7 +20,7 @@ test('Say Test 1', async () => {
   }
 });
 
-test('Say Test 2', async () => {
+test('Say() test with uuid and scene', async () => {
   const apiKey = process.env.CARTER_API_KEY;
   let carter: Carter;
   if (apiKey) {
@@ -32,7 +32,7 @@ test('Say Test 2', async () => {
   }
 });
 
-test('Say Test 3', async () => {
+test('Say() test with scene only', async () => {
   const apiKey = process.env.CARTER_API_KEY;
   let carter: Carter;
   if (apiKey) {
@@ -41,18 +41,6 @@ test('Say Test 3', async () => {
     expect(response.ok).toBe(true);
   } else {
     throw Error('No API key found.');
-  }
-});
-
-test('Downvote Test', async () => {
-  const apiKey = process.env.CARTER_API_KEY;
-  let carter: Carter;
-  if (apiKey) {
-    carter = new Carter(apiKey);
-    const response = await carter.say('Hello');
-    expect(response.ok).toBe(true);
-    const downvoted = await carter.downvote(response);
-    expect(downvoted).toBe(true);
   }
 });
 
