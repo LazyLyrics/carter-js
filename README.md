@@ -1,9 +1,9 @@
 # Carter JS
 
-[Docs](https://lazylyrics.github.io/carter-js/) |
-[Changelog](https://github.com/LazyLyrics/carter-js/blob/main/changelog.md)
+**[TypeDocs](https://lazylyrics.github.io/carter-js/) |
+[Changelog](https://github.com/LazyLyrics/carter-js/blob/main/changelog.md) | [Full Documentation](https://lazylyrics.gitbook.io/carter-js/)**
 
-This readme a work in progress. While I work to improve them, please note that there is also TypeDoc documentation [here](https://lazylyrics.github.io/carter-js/). Where an object is described here, you can find the exact types indicated here in those docs if you need more information.
+*`carter-js` documentation is a work in progress. Objects described here and in the full documentation can be found in the TypeDoc documentation if you need more details. That documentation is fully updated at all times, though the annotations and descriptions are also a work in progress.*
 
 `carter-js` provides a set of utility functions for interacting with your [Carter](https://www.carterapi.com/) agent. In order for `carter-js` to work you'll need to create a [Carter](https://www.carterapi.com/) agent.
 
