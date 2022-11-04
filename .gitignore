@@ -3,3 +3,5 @@ lib
 .env
 .vscode
 .VSCodeCounter
+local_scripts
+*.tgz

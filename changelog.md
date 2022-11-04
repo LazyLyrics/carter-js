@@ -6,12 +6,25 @@ All notable changes (from [1.4.0] onwards) will be documented here.
 
 ### Added
 
+#### Skills
+
+Skills allow a carter-js object to detect CarterAPI triggers. A carter-js skill allows you to then define an action which will take in CarterAPI's response and allow you to modify it. This action can be triggered automatically or manually and allows easy replacement of text in
+your CarterAPI responses.
+
+- `Carter.registerSkill(name, action, options)` - registers a new skill and its action with your carter object
+- `Carter.skills` - An array of skills registered with your carter object
+
 #### Timing functions
 
 You can now extract response time data from your conversation history. As well as being able to pull the response time data from an individual `CarterInteraction` you are now able to use:
 
 - `Carter.lastResponseTime()` - extracts the response time from your most recent interaction.
 - `Carter.averageResponseTime()` - Calculates the average response time of interactions with your agent, can accept an optional `minutes` parameter
+
+### Changed
+
+- `carter.say()` now returns a `CarterResponse` object with an undefined `data` property if the response from Carter is not successful - if the `response.ok` property is not true.
+- Following on from the above change, it might now be possible to pass an interaction to `Carter.downvote()` which doesn't have any data as it was unsuccessful. Therefore, `Carter.downvote()` will now return false both if the request is unsuccessful and if `carter-js` is unable to retrieve a TID from the object provided.
 
 ## [1.4.1] - 2022-11-02
 

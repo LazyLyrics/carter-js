@@ -29,7 +29,7 @@ test('Downvote Test w tid Object', async () => {
     carter = new Carter(apiKey);
     const response = await carter.say('Hello');
     expect(response.ok).toBe(true);
-    const downvoted = await carter.downvote(response.data.tid);
+    const downvoted = await carter.downvote(response.data?.tid);
     expect(downvoted).toBe(true);
   }
 });

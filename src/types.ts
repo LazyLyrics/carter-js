@@ -1,13 +1,15 @@
 export interface CarterInteraction {
-  data: CarterData;
+  data: CarterData | undefined;
   payload: CarterPayload;
   ok: boolean;
   statusCode: number;
   statusMessage: string;
+  triggeredSkills: CarterSkillInstance[]
+  executedSkills: CarterSkillInstance[]
 }
 
 export function isACarterInteraction(obj: any): obj is CarterInteraction {
-  return 'data' in obj && 'ok' in obj && 'statusCode' in obj && 'statusMessage' in obj && 'payload' in obj;
+  return 'data' in obj && 'ok' in obj && 'statusCode' in obj && 'statusMessage' in obj && 'payload' in obj && "triggeredSkills" in obj && "executedSkills" in obj;
 }
 
 export interface CarterPayload {
@@ -27,6 +29,7 @@ export interface CarterData {
       label: string;
       word: string;
     }[];
+    metadata: object
   }[];
   question: boolean;
   output: {
@@ -64,5 +67,56 @@ export interface CarterConversationEntry {
 }
 
 export function isAConversationEntry(obj: any): obj is CarterConversationEntry {
-  return 'isoString' in obj && 'request' in obj && 'responseData' in obj;
+  return 'isoString' in obj && 'interaction' in obj;
+}
+
+export interface CarterSkillOptions {
+  auto?: Boolean,
+  asynchronous?: Boolean
+}
+
+export type CarterSkillAction = (response: string, metadata: unknown | undefined, entities: CarterTriggerEntity[] | undefined) => string | undefined
+export type CarterTriggerEntity = { confidence: number, label: string, word: string }
+
+export type CarterSkill = {
+  name: string
+  action: CarterSkillAction
+  options: CarterSkillOptions
+}
+
+export class CarterSkillInstance {
+  name: string
+  execute
+  metadata: any
+  entities: CarterTriggerEntity[]
+  output: string
+
+  constructor(skill: CarterSkill, output: string, metadata: any, entities: CarterTriggerEntity[]) {
+    this.name = skill.name
+    this.metadata = metadata
+    this.entities = entities
+    this.output = output
+
+    if (skill.options.asynchronous) {
+      this.execute = async () => {
+        const newOutput = await skill.action(output, metadata, entities)
+        if (newOutput) {
+          this.output = newOutput
+          return newOutput
+        } else {
+          return this.output
+        }
+      }
+    } else {
+      this.execute = () => {
+        const newOutput = skill.action(output, metadata, entities)
+        if (newOutput) {
+          this.output = newOutput
+          return newOutput
+        } else {
+          return this.output
+        }
+      }
+    }
+  }
 }
