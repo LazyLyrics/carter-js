@@ -71,14 +71,13 @@ export class Carter {
 
     for (let trigger of data.triggers) {
       const skill = this.findSkill(trigger.type)
+      let newOutput;
       if (skill) {
         const skillInstance = new CarterSkillInstance(skill, data.output.text, trigger.metadata, trigger.entities)
         if (skill.options.auto) {
-          if (skill.options.asynchronous) {
-            data.output.text = await skillInstance.execute()
-          } else {
-            data.output.text = skillInstance.execute()
-          }
+          newOutput = await skillInstance.execute()
+          data.output.text = newOutput
+          data.output.voice = this.getVoiceLink(newOutput)
           executedSkills.push(skillInstance)
         } else {
           triggeredSkills.push(skillInstance)

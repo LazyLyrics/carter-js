@@ -75,7 +75,7 @@ export interface CarterSkillOptions {
   asynchronous?: Boolean
 }
 
-export type CarterSkillAction = (response: string, metadata: unknown | undefined, entities: CarterTriggerEntity[] | undefined) => string | undefined
+export type CarterSkillAction = (response: string, metadata: unknown | undefined, entities: CarterTriggerEntity[] | undefined) => Promise<string> | Promise<undefined>
 export type CarterTriggerEntity = { confidence: number, label: string, word: string }
 
 export type CarterSkill = {
@@ -97,25 +97,13 @@ export class CarterSkillInstance {
     this.entities = entities
     this.output = output
 
-    if (skill.options.asynchronous) {
-      this.execute = async () => {
-        const newOutput = await skill.action(output, metadata, entities)
-        if (newOutput) {
-          this.output = newOutput
-          return newOutput
-        } else {
-          return this.output
-        }
-      }
-    } else {
-      this.execute = () => {
-        const newOutput = skill.action(output, metadata, entities)
-        if (newOutput) {
-          this.output = newOutput
-          return newOutput
-        } else {
-          return this.output
-        }
+    this.execute = async () => {
+      const newOutput = await skill.action(output, metadata, entities)
+      if (newOutput) {
+        this.output = newOutput
+        return newOutput
+      } else {
+        return this.output
       }
     }
   }
