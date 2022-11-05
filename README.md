@@ -44,43 +44,6 @@ A Carter object contains all the necessary methods for interacting with your Car
 
 `Carter.say()` sends a fetch request, extracts the useful elements of the response and returns a `CarterInteraction` object.
 
-```js
-CarterInteraction {
-  data: CarterData
-  ok: Boolean
-  statusCode: Number
-  statusMessage: String
-  payload: CarterPayload
-}
-```
-
-**data**: The Carter endpoint response. More details [here](https://carterapi.gitbook.io/carter-docs/api/api-response).
-
-**ok**: Boolean. Returns true if response code is 2xx. More details [here](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok).
-
-**statusCode**: The HTTP response [status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status).
-
-**statusMessage**: An informational message relating to the status code.
-
-**payload**: The JSON payload which was sent to Carter.
-
-```js
-CarterPayload {
-  api_key: string
-  query: string
-  uuid: string
-  scene: string // if provided
-}
-```
-
-**api_key**: The API key provided when you created your Carter object.
-
-**query**: The query string passed into `Carter.say()`
-
-**uuid**: If you passed a unique user ID into `Carter.say()` then `carter-js` uses this. Otherwise, `carter-js` generates one using the `v1()` method from the [`uuid`](https://github.com/uuidjs/uuid#api-summary) package.
-
-**scene**: This will be undefined if you did not provide it.
-
 ### Get an audio link from your agent
 
 Make your Carter agent say whatever you like through an audio link. When you send a message to your Carter agent the response from the Carter endpoint automatically includes one of these links, as you can read about [here](https://carterapi.gitbook.io/carter-docs/api/voice-api). You can call `Carter.getVoiceLink()` to generate one of these links for any text input in order to hear your agent speak aloud anything you need it to.
@@ -109,7 +72,7 @@ As is outlined [here](https://carterapi.gitbook.io/carter-docs/api/downvote-agen
   const downvoted = await carter.downvote(interaction)
 ```
 
-You can pass in either a `CarterInteraction` object returned from `Carter.say()`, a `CarterConversationEntry` object obtained from the `Carter.history` array, or the TID contained in `CarterData.pid`.
+You can pass in either a `CarterInteraction` object returned from `Carter.say()`, a `CarterConversationEntry` object obtained from the `Carter.history` array, or the tid contained in `CarterData.tid`.
 
 `Carter.downvote()` returns a Boolean signifying the request was successful.
 
@@ -129,3 +92,5 @@ CarterConversationEntry {
 **interaction**: A `CarterInteraction` object.
 
 This entire array is accessible in full, and is ordered with the most recent interaction at the front of the array. For convenience, you can also invoke `Carter.latest()` which will return the most recent interaction.
+
+For more information and full documentation on `carter-js`'s see the [GitBook Docs](https://lazylyrics.gitbook.io/carter-js/).
