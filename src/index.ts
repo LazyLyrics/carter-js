@@ -8,7 +8,7 @@ import {
   CarterSkill,
   CarterSkillOptions,
   CarterSkillAction,
-  CarterSkillInstance
+  CarterSkillInstance,
 } from './types';
 import { v1 as uuidv1 } from 'uuid';
 import { DateTime } from 'luxon';
@@ -19,7 +19,7 @@ import { DateTime } from 'luxon';
 export class Carter {
   apiKey: string;
   history: CarterConversationEntry[] = [];
-  skills: CarterSkill[] = []
+  skills: CarterSkill[] = [];
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
@@ -32,10 +32,10 @@ export class Carter {
    * Say something to carter, takes a query parameter containing your message, as well as an options object (optional). Will create a uuid automatically if one is not provided.
    */
   async say(query: string, options?: CarterPayloadOptions | undefined): Promise<CarterInteraction> {
-    const triggeredSkills: CarterSkillInstance[] = []
-    const executedSkills: CarterSkillInstance[] = []
-    let data
-    let interaction: CarterInteraction
+    const triggeredSkills: CarterSkillInstance[] = [];
+    const executedSkills: CarterSkillInstance[] = [];
+    let data;
+    let interaction: CarterInteraction;
 
     const payload: CarterPayload = {
       api_key: this.apiKey,
@@ -56,7 +56,7 @@ export class Carter {
     });
 
     if (response.ok) {
-      data = await response.json()
+      data = await response.json();
     } else {
       return {
         data: undefined,
@@ -65,22 +65,22 @@ export class Carter {
         statusMessage: response.statusText,
         payload,
         triggeredSkills: [],
-        executedSkills: []
-      }
+        executedSkills: [],
+      };
     }
 
     for (const trigger of data.triggers) {
-      const skill = this.findSkill(trigger.type)
+      const skill = this.findSkill(trigger.type);
       let newOutput;
       if (skill) {
-        const skillInstance = new CarterSkillInstance(skill, data.output.text, trigger.metadata, trigger.entities)
+        const skillInstance = new CarterSkillInstance(skill, data.output.text, trigger.metadata, trigger.entities);
         if (skill.options.auto) {
-          newOutput = await skillInstance.execute()
-          data.output.text = newOutput
-          data.output.voice = this.getVoiceLink(newOutput)
-          executedSkills.push(skillInstance)
+          newOutput = await skillInstance.execute();
+          data.output.text = newOutput;
+          data.output.voice = this.getVoiceLink(newOutput);
+          executedSkills.push(skillInstance);
         } else {
-          triggeredSkills.push(skillInstance)
+          triggeredSkills.push(skillInstance);
         }
       }
     }
@@ -92,7 +92,7 @@ export class Carter {
       statusMessage: response.statusText,
       payload,
       triggeredSkills,
-      executedSkills
+      executedSkills,
     };
     const newConversationEntry: CarterConversationEntry = {
       isoTimestamp: DateTime.now().toISO(),
@@ -116,19 +116,19 @@ export class Carter {
   // =====================
 
   registerSkill(name: string, action: CarterSkillAction, options?: CarterSkillOptions): CarterSkill | undefined {
-    const existing = this.findSkill(name)
+    const existing = this.findSkill(name);
     if (existing) {
-      return undefined
+      return undefined;
     } else {
-      const skill: CarterSkill = { name, action, options: options ? options : {} }
-      this.skills.push(skill)
-      return skill
+      const skill: CarterSkill = { name, action, options: options ? options : {} };
+      this.skills.push(skill);
+      return skill;
     }
   }
 
   findSkill(name: string): CarterSkill | undefined {
-    const skill = this.skills.find((value) => value.name === name)
-    return skill
+    const skill = this.skills.find((value) => value.name === name);
+    return skill;
   }
 
   // DOWNVOTING
@@ -138,9 +138,12 @@ export class Carter {
    * Downvote a Carter response by passing in the CarterResponse object from Carter.say()
    */
   async downvote(target: CarterInteraction | (CarterConversationEntry | undefined) | string): Promise<boolean> {
-    let body: {
-      api_key: string; tid: string;
-    } | {} = {};
+    let body:
+      | {
+          api_key: string;
+          tid: string;
+        }
+      | {} = {};
     if (typeof target === 'string') {
       body = {
         api_key: this.apiKey,
@@ -153,7 +156,7 @@ export class Carter {
           tid: target.data.tid,
         };
       } else {
-        return false
+        return false;
       }
     } else if (isAConversationEntry(target)) {
       if (target.interaction.data) {
@@ -162,10 +165,12 @@ export class Carter {
           tid: target.interaction.data.tid,
         };
       } else {
-        return false
+        return false;
       }
     } else {
-      throw Error('Did not receive correct target, please ensure you passed a TID, an interaction, or a conversation entry.');
+      throw Error(
+        'Did not receive correct target, please ensure you passed a TID, an interaction, or a conversation entry.',
+      );
     }
     const response = await fetch('https://api.carterapi.com/v0/downvote', {
       method: 'POST',
@@ -194,42 +199,42 @@ export class Carter {
 
   /** Returns the response time of your last interaction with Carter */
   lastResponseTime(): number | undefined {
-    return this.latest()?.interaction.data?.time_taken
+    return this.latest()?.interaction.data?.time_taken;
   }
 
   /**
    * Returns the average response time for a given number of minutes if given. If not given, the average response time for your the entire history is returned. If there is either no history or no interactions in the given time period, the return value will be undefined.
    */
   averageResponseTime(minutes?: number): number | undefined {
-    const times: number[] = []
+    const times: number[] = [];
     if (minutes) {
-      const lowerBound = DateTime.now().minus({ minutes })
+      const lowerBound = DateTime.now().minus({ minutes });
       for (const entry of this.history) {
-        const dt = DateTime.fromISO(entry.isoTimestamp)
+        const dt = DateTime.fromISO(entry.isoTimestamp);
         if (dt > lowerBound && entry.interaction.data?.time_taken) {
-          times.push(entry.interaction.data.time_taken)
+          times.push(entry.interaction.data.time_taken);
         }
       }
       if (times.length > 0) {
-        const total = times.reduce((a, b) => a + b)
-        const average = total / times.length
-        return average
+        const total = times.reduce((a, b) => a + b);
+        const average = total / times.length;
+        return average;
       } else {
-        return undefined
+        return undefined;
       }
     } else {
       for (const entry of this.history) {
-        const dt = DateTime.fromISO(entry.isoTimestamp)
+        const dt = DateTime.fromISO(entry.isoTimestamp);
         if (entry.interaction.data?.time_taken) {
-          times.push(entry.interaction.data.time_taken)
+          times.push(entry.interaction.data.time_taken);
         }
       }
       if (times.length > 0) {
-        const total = times.reduce((a, b) => a + b)
-        const average = total / times.length
-        return average
+        const total = times.reduce((a, b) => a + b);
+        const average = total / times.length;
+        return average;
       } else {
-        return undefined
+        return undefined;
       }
     }
   }

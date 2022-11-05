@@ -4,12 +4,20 @@ export interface CarterInteraction {
   ok: boolean;
   statusCode: number;
   statusMessage: string;
-  triggeredSkills: CarterSkillInstance[]
-  executedSkills: CarterSkillInstance[]
+  triggeredSkills: CarterSkillInstance[];
+  executedSkills: CarterSkillInstance[];
 }
 
 export function isACarterInteraction(obj: any): obj is CarterInteraction {
-  return 'data' in obj && 'ok' in obj && 'statusCode' in obj && 'statusMessage' in obj && 'payload' in obj && "triggeredSkills" in obj && "executedSkills" in obj;
+  return (
+    'data' in obj &&
+    'ok' in obj &&
+    'statusCode' in obj &&
+    'statusMessage' in obj &&
+    'payload' in obj &&
+    'triggeredSkills' in obj &&
+    'executedSkills' in obj
+  );
 }
 
 export interface CarterPayload {
@@ -29,7 +37,7 @@ export interface CarterData {
       label: string;
       word: string;
     }[];
-    metadata: object
+    metadata: object;
   }[];
   question: boolean;
   output: {
@@ -71,40 +79,44 @@ export function isAConversationEntry(obj: any): obj is CarterConversationEntry {
 }
 
 export interface CarterSkillOptions {
-  auto?: boolean,
-  asynchronous?: boolean
+  auto?: boolean;
+  asynchronous?: boolean;
 }
 
-export type CarterSkillAction = (response: string, metadata: unknown | undefined, entities: CarterTriggerEntity[] | undefined) => Promise<string> | Promise<undefined>
-export type CarterTriggerEntity = { confidence: number, label: string, word: string }
+export type CarterSkillAction = (
+  response: string,
+  metadata: unknown | undefined,
+  entities: CarterTriggerEntity[] | undefined,
+) => Promise<string> | Promise<undefined>;
+export type CarterTriggerEntity = { confidence: number; label: string; word: string };
 
 export type CarterSkill = {
-  name: string
-  action: CarterSkillAction
-  options: CarterSkillOptions
-}
+  name: string;
+  action: CarterSkillAction;
+  options: CarterSkillOptions;
+};
 
 export class CarterSkillInstance {
-  name: string
-  execute
-  metadata: any
-  entities: CarterTriggerEntity[]
-  output: string
+  name: string;
+  execute;
+  metadata: any;
+  entities: CarterTriggerEntity[];
+  output: string;
 
   constructor(skill: CarterSkill, output: string, metadata: any, entities: CarterTriggerEntity[]) {
-    this.name = skill.name
-    this.metadata = metadata
-    this.entities = entities
-    this.output = output
+    this.name = skill.name;
+    this.metadata = metadata;
+    this.entities = entities;
+    this.output = output;
 
     this.execute = async () => {
-      const newOutput = await skill.action(output, metadata, entities)
+      const newOutput = await skill.action(output, metadata, entities);
       if (newOutput) {
-        this.output = newOutput
-        return newOutput
+        this.output = newOutput;
+        return newOutput;
       } else {
-        return this.output
+        return this.output;
       }
-    }
+    };
   }
 }
