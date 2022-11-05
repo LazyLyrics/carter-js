@@ -69,7 +69,7 @@ export class Carter {
       }
     }
 
-    for (let trigger of data.triggers) {
+    for (const trigger of data.triggers) {
       const skill = this.findSkill(trigger.type)
       let newOutput;
       if (skill) {
@@ -91,8 +91,8 @@ export class Carter {
       statusCode: response.status,
       statusMessage: response.statusText,
       payload,
-      triggeredSkills: triggeredSkills,
-      executedSkills: executedSkills
+      triggeredSkills,
+      executedSkills
     };
     const newConversationEntry: CarterConversationEntry = {
       isoTimestamp: DateTime.now().toISO(),
@@ -201,7 +201,7 @@ export class Carter {
    * Returns the average response time for a given number of minutes if given. If not given, the average response time for your the entire history is returned. If there is either no history or no interactions in the given time period, the return value will be undefined.
    */
   averageResponseTime(minutes?: number): number | undefined {
-    let times: number[] = []
+    const times: number[] = []
     if (minutes) {
       const lowerBound = DateTime.now().minus({ minutes })
       for (const entry of this.history) {

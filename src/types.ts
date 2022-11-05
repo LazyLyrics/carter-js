@@ -71,8 +71,8 @@ export function isAConversationEntry(obj: any): obj is CarterConversationEntry {
 }
 
 export interface CarterSkillOptions {
-  auto?: Boolean,
-  asynchronous?: Boolean
+  auto?: boolean,
+  asynchronous?: boolean
 }
 
 export type CarterSkillAction = (response: string, metadata: unknown | undefined, entities: CarterTriggerEntity[] | undefined) => Promise<string> | Promise<undefined>
