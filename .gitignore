@@ -5,3 +5,4 @@ lib
 .VSCodeCounter
 local_scripts
 *.tgz
+.markdownlint.json
