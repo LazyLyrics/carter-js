@@ -2,6 +2,10 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
+## [1.5.1] 2022-11-30
+
+- Bug fixes related to carter update 0.0.18
+
 ## [1.5] 2022-11-05
 
 ### Added
