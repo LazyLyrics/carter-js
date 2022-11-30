@@ -69,21 +69,26 @@ export class Carter {
       };
     }
 
-    for (const trigger of data.triggers) {
-      const skill = this.findSkill(trigger.type);
-      let newOutput;
-      if (skill) {
-        const skillInstance = new CarterSkillInstance(skill, data.output.text, trigger.metadata, trigger.entities);
-        if (skill.options.auto) {
-          newOutput = await skillInstance.execute();
-          data.output.text = newOutput;
-          data.output.voice = this.getVoiceLink(newOutput);
-          executedSkills.push(skillInstance);
-        } else {
-          triggeredSkills.push(skillInstance);
+    console.log(JSON.stringify(data, null, 2))
+
+    if (data.triggers) {
+      for (const trigger of data.triggers) {
+        const skill = this.findSkill(trigger.type);
+        let newOutput;
+        if (skill) {
+          const skillInstance = new CarterSkillInstance(skill, data.output.text, trigger.metadata, trigger.entities);
+          if (skill.options.auto) {
+            newOutput = await skillInstance.execute();
+            data.output.text = newOutput;
+            data.output.voice = this.getVoiceLink(newOutput);
+            executedSkills.push(skillInstance);
+          } else {
+            triggeredSkills.push(skillInstance);
+          }
         }
       }
     }
+
 
     interaction = {
       data,
@@ -140,9 +145,9 @@ export class Carter {
   async downvote(target: CarterInteraction | (CarterConversationEntry | undefined) | string): Promise<boolean> {
     let body:
       | {
-          api_key: string;
-          tid: string;
-        }
+        api_key: string;
+        tid: string;
+      }
       | {} = {};
     if (typeof target === 'string') {
       body = {
