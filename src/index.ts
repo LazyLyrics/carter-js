@@ -87,7 +87,6 @@ export class Carter {
       }
     }
 
-
     interaction = {
       data,
       ok: response.ok,
@@ -143,9 +142,9 @@ export class Carter {
   async downvote(target: CarterInteraction | (CarterConversationEntry | undefined) | string): Promise<boolean> {
     let body:
       | {
-        api_key: string;
-        tid: string;
-      }
+          api_key: string;
+          tid: string;
+        }
       | {} = {};
     if (typeof target === 'string') {
       body = {
