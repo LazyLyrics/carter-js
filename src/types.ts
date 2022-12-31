@@ -85,7 +85,7 @@ export interface CarterSkillOptions {
 
 export interface CarterSkillOutput {
   output: string;
-  skillData: any
+  skillData: any;
 }
 
 export type CarterSkillAction = (
@@ -118,11 +118,10 @@ export class CarterSkillInstance {
     this.execute = async () => {
       const newOutput = await skill.action(output, metadata, entities);
       if (newOutput) {
-        if (typeof newOutput === "string")
-          this.output = newOutput;
+        if (typeof newOutput === 'string') this.output = newOutput;
         else {
-          this.output = newOutput.output
-          this.skillData = newOutput.skillData
+          this.output = newOutput.output;
+          this.skillData = newOutput.skillData;
         }
         return newOutput;
       } else {
