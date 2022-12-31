@@ -83,11 +83,16 @@ export interface CarterSkillOptions {
   asynchronous?: boolean;
 }
 
+export interface CarterSkillOutput {
+  output: string;
+  skillData: any
+}
+
 export type CarterSkillAction = (
   response: string,
   metadata: unknown | undefined,
   entities: CarterTriggerEntity[] | undefined,
-) => Promise<string> | Promise<undefined>;
+) => Promise<CarterSkillOutput> | Promise<string> | void;
 export type CarterTriggerEntity = { confidence: number; label: string; word: string };
 
 export type CarterSkill = {
@@ -100,6 +105,7 @@ export class CarterSkillInstance {
   name: string;
   execute;
   metadata: any;
+  skillData: any;
   entities: CarterTriggerEntity[];
   output: string;
 
@@ -112,7 +118,12 @@ export class CarterSkillInstance {
     this.execute = async () => {
       const newOutput = await skill.action(output, metadata, entities);
       if (newOutput) {
-        this.output = newOutput;
+        if (typeof newOutput === "string")
+          this.output = newOutput;
+        else {
+          this.output = newOutput.output
+          this.skillData = newOutput.skillData
+        }
         return newOutput;
       } else {
         return this.output;
