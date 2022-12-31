@@ -2,11 +2,11 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
-## [1.6] 2022-12-31
+## [1.6.1] 2022-12-31
 
 ### Changed
 
-- Skill actions can now optionally return a CarterSkillOutput object as well as a string, or nothing at all. See documentation for details.
+- Skill actions must now return a CarterSkillOutput object. See documentation for details.
 
 ## [1.5.1] 2022-11-30
 
