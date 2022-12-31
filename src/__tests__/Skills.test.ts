@@ -12,15 +12,18 @@ test('Skills test', async () => {
     let response = await carter.say('Hello');
     expect(response.ok).toBe(true);
 
-    carter.registerSkill("News request", () => {
-      return {
-        output: "NEWS"
-      }
-    }, { auto: true })
+    carter.registerSkill(
+      'News request',
+      () => {
+        return {
+          output: 'NEWS',
+        };
+      },
+      { auto: true },
+    );
 
-    response = await carter.say("Give me the news")
-    expect(response.data?.output.text).toBe("NEWS")
-
+    response = await carter.say('Give me the news');
+    expect(response.data?.output.text).toBe('NEWS');
   } else {
     throw Error('No API key found.');
   }
