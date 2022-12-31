@@ -2,7 +2,7 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
-## [1.5.2] 2022-12-31
+## [1.6] 2022-12-31
 
 ### Changed
 
