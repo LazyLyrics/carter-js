@@ -22,17 +22,13 @@ test('Skills test', async () => {
       { auto: true },
     );
 
-    carter.registerSkill(
-      'Weather Request', () => {
-
-      }
-    )
+    carter.registerSkill('Weather Request', () => {});
 
     response = await carter.say('Give me the news');
     expect(response.data?.output.text).toBe('NEWS');
 
-    response = await carter.say("What's the weather like?")
-    expect(response.data?.output.text).toBe('The weather is currently, $replace-with-weather')
+    response = await carter.say("What's the weather like?");
+    expect(response.data?.output.text).toBe('The weather is currently, $replace-with-weather');
   } else {
     throw Error('No API key found.');
   }
