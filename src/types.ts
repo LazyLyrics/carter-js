@@ -92,7 +92,7 @@ export type CarterSkillAction = (
   response: string,
   metadata: unknown | undefined,
   entities: CarterTriggerEntity[] | undefined,
-) => Promise<CarterSkillOutput> | CarterSkillOutput;
+) => Promise<CarterSkillOutput> | CarterSkillOutput | Promise<void> | void;
 
 export type CarterTriggerEntity = { confidence: number; label: string; word: string };
 

@@ -77,8 +77,10 @@ export class Carter {
           const skillInstance = new CarterSkillInstance(skill, data.output.text, trigger.metadata, trigger.entities);
           if (skill.options.auto) {
             newOutput = await skillInstance.execute();
-            data.output.text = newOutput;
-            data.output.voice = this.getVoiceLink(newOutput);
+            if (newOutput) {
+              data.output.text = newOutput;
+              data.output.voice = this.getVoiceLink(newOutput);
+            }
             executedSkills.push(skillInstance);
           } else {
             triggeredSkills.push(skillInstance);
@@ -142,9 +144,9 @@ export class Carter {
   async downvote(target: CarterInteraction | (CarterConversationEntry | undefined) | string): Promise<boolean> {
     let body:
       | {
-          api_key: string;
-          tid: string;
-        }
+        api_key: string;
+        tid: string;
+      }
       | {} = {};
     if (typeof target === 'string') {
       body = {

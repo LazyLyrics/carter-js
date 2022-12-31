@@ -2,7 +2,23 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
+## [1.6.2] 2022-12-31
+
+### Fixes
+
+- Fixes issue where skill actions which did not alter the response did not work if no value was returned.
+
 ## [1.6.1] 2022-12-31
+
+### Changed
+
+- Skill actions which alter the response **must** now return a CarterSkillOutput object. See documentation for details.
+
+## [1.6.0] 2022-12-31
+
+### Changed
+
+- Skill actions which alter the response can now return a CarterSkillOutput object. See documentation for details.
 
 ### Changed
 
