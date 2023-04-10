@@ -17,7 +17,7 @@ import {
 import { v1 as uuidv1 } from 'uuid';
 import { DateTime } from 'luxon';
 import now from 'performance-now';
-import * as logging from './testing/logger';
+import * as logging from './logger';
 
 export const URLS = {
   say: 'https://api.carterlabs.ai/chat',
