@@ -2,7 +2,6 @@ import Carter from '../../index';
 import * as helpers from '../helpers';
 import dotenv from 'dotenv';
 dotenv.config();
-let carter: Carter;
 
 jest.setTimeout(60000);
 
@@ -42,5 +41,4 @@ describe('say', () => {
   test('should throw an error with all invalid data', async () => {
     await expect(carter.say(1 as any, 1 as any)).rejects.toThrowError();
   });
-
 });
