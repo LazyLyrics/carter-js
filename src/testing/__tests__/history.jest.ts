@@ -37,17 +37,17 @@ describe('history', () => {
   test('test history with 5 entries', async () => {
     expect(carter.history.length).toBe(0);
     expect(carter.latest()).toBeUndefined();
-    //   for (let i = 0; i < 5; i++) {
-    //     await carter.say('hello, this is a test message', 'callum');
-    //   }
-    //   expect(carter.history.length).toBe(5);
+    for (let i = 0; i < 5; i++) {
+      await carter.say('hello, this is a test message', 'callum');
+    }
+    expect(carter.history.length).toBe(5);
 
-    //   for (let interaction of carter.history) {
-    //     console.log(typeof interaction)
-    //     expect(types.isCarterConversationEntry(interaction)).toBeTruthy();
-    //   }
+    for (let interaction of carter.history) {
+      console.log(typeof interaction)
+      expect(types.isCarterConversationEntry(interaction)).toBeTruthy();
+    }
 
-    //   expect(carter.latest()).toBeDefined();
-    //   expect(types.isCarterConversationEntry(carter.latest())).toBeTruthy();
+    expect(carter.latest()).toBeDefined();
+    expect(types.isCarterConversationEntry(carter.latest())).toBeTruthy();
   })
 });

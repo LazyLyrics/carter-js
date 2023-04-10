@@ -22,13 +22,13 @@ describe('say', () => {
 
   // REPEATED INPUTS
 
-  // test('should return multiple interactions with carter data', async () => {
-  //   let response = await carter.say("Hello, this is a test message. I'm going to be sending a few of these.", 'callum');
-  //   for (let i = 0; i < 5; i++) {
-  //     response = await carter.say('This is another test message.', 'callum');
-  //     helpers.expectSuccessfulCarterInteraction(response);
-  //   }
-  // });
+  test('should return multiple interactions with carter data', async () => {
+    let response = await carter.say("Hello, this is a test message. I'm going to be sending a few of these.", 'callum');
+    for (let i = 0; i < 5; i++) {
+      response = await carter.say('This is another test message.', 'callum');
+      helpers.expectSuccessfulCarterInteraction(response);
+    }
+  });
 
   // TEST WITH INVALID INPUTS
   test('should throw an error with invalid text', async () => {
