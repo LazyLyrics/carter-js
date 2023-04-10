@@ -2,6 +2,8 @@
 
 All notable changes (from [1.4.0] onwards) will be documented here.
 
+## 2.0.1 2023-04-10 Removes unnecessary files from build
+
 ## [2.0] 2023-04-10 Support for Carter Engine V1
 
 Items marked as [Beta] are currently untested and may not work as expected.
