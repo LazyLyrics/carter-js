@@ -6,3 +6,4 @@ lib
 local_scripts
 *.tgz
 .markdownlint.json
+coverage
