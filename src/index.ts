@@ -28,7 +28,7 @@ export const URLS = {
 /**
  * Contains methods for interacting with Carter.
  */
-export default class Carter {
+class Carter {
   apiKey: string;
   history: CarterConversationEntry[] = [];
   skills: CarterSkill[] = [];
@@ -392,3 +392,6 @@ export default class Carter {
     }
   }
 }
+
+module.exports = Carter;
+export default Carter;
