@@ -11,14 +11,14 @@ describe('say', () => {
   beforeEach(() => {
     const API_KEY = process.env.CARTER_API_KEY as string;
     carter = new Carter(API_KEY);
-    console.log(API_KEY)
-    console.log(carter.apiKey)
+    console.log(API_KEY);
+    console.log(carter.apiKey);
   });
 
   // BOTH VALID INPUTS
   test('should return an interaction with carter data', async () => {
     const response = await carter.say('Hello, this is a test message.', 'callum');
-    console.log(response.statusCode)
+    console.log(response.statusCode);
     helpers.expectSuccessfulCarterInteraction(response);
   });
 
