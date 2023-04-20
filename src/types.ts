@@ -17,23 +17,32 @@ export interface CarterInteraction {
   triggeredSkills: CarterSkillInstance[];
   executedSkills: CarterSkillInstance[];
   timeTaken: number;
+
+  response_text: string | undefined;
+  response_audio: string | undefined;
 }
 
 export interface CarterOpenerInteraction {
   id: string;
   data: CarterOpenerData | undefined;
+  payload: CarterOpenerPayload;
   ok: boolean;
   statusCode: number;
   statusMessage: string;
   timeTaken: number;
+
+  response_text: string | undefined;
 }
 export interface CarterPersonaliseInteraction {
   id: string;
   data: CarterData | undefined;
+  payload: CarterPersonalisePayload;
   ok: boolean;
   statusCode: number;
   statusMessage: string;
   timeTaken: number;
+
+  response_text: string | undefined;
 }
 
 export interface ForcedBehaviour {
@@ -43,6 +52,7 @@ export interface ForcedBehaviour {
 export interface CarterData {
   output: {
     text: string;
+    audio: string | undefined;
   };
   input: string;
   forced_behaviours: ForcedBehaviour[];
@@ -59,6 +69,19 @@ export interface CarterPayload {
   key: string;
   text: string;
   playerId: string;
+  speak: boolean;
+}
+
+export interface CarterOpenerPayload {
+  key: string;
+  playerId: string;
+  speak: boolean;
+}
+
+export interface CarterPersonalisePayload {
+  key: string;
+  text: string;
+  speak: boolean;
 }
 
 export interface CarterConversationEntry {

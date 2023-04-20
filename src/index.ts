@@ -13,6 +13,8 @@ import {
   Logger,
   isCarterSkillAction,
   isCarterSkillOptions,
+  CarterOpenerPayload,
+  CarterPersonalisePayload,
 } from './types';
 import { v1 as uuidv1 } from 'uuid';
 import { DateTime } from 'luxon';
@@ -33,8 +35,9 @@ class Carter {
   history: CarterConversationEntry[] = [];
   skills: CarterSkill[] = [];
   logger: Logger = new logging.NoOpLogger();
+  speakDefault: Boolean = true;
 
-  constructor(apiKey: string, userLogger?: Logger) {
+  constructor(apiKey: string, userLogger?: Logger, speak?: Boolean) {
     if (!apiKey || typeof apiKey !== 'string') {
       throw Error(`Carter constructor requires a string as the first parameter. Received: ${apiKey}.`);
     }
@@ -43,6 +46,10 @@ class Carter {
     if (userLogger && logging.validateLogger(userLogger)) {
       this.logger = userLogger;
       this.logger.info(`Detected logger, using it.`);
+    }
+
+    if (speak && typeof speak === 'boolean') {
+      this.speakDefault = speak;
     }
 
     this.logger.info(`Carter initialised.`);
@@ -54,7 +61,7 @@ class Carter {
   /**
    * Say something to carter, takes a query parameter containing your message, as well as an options object (optional). Will create a uuid automatically if one is not provided.
    */
-  async say(text: string, playerId?: string): Promise<CarterInteraction> {
+  async say(text: string, playerId?: string, speak?: boolean): Promise<CarterInteraction> {
     if (!text || typeof text !== 'string') {
       throw Error(`Carter.say() requires a string as the first parameter. Received: ${text}.`);
     }
@@ -63,6 +70,14 @@ class Carter {
       playerId = uuidv1();
     } else if (playerId && typeof playerId !== 'string') {
       throw Error(`Carter.say() requires a string as the second parameter. Received: ${playerId}.`);
+    }
+
+    if (speak) {
+      if (typeof speak !== 'boolean') {
+        throw Error(`Carter.say() requires a boolean as speak parameter. Received: ${speak}.`);
+      }
+    } else {
+      speak = this.speakDefault as boolean;
     }
 
     const interactionID = uuidv1();
@@ -77,6 +92,7 @@ class Carter {
       key: this.apiKey,
       text,
       playerId,
+      speak,
     };
     const response = await fetch(URLS.say, {
       method: 'POST',
@@ -99,6 +115,9 @@ class Carter {
           triggeredSkills: [],
           executedSkills: [],
           timeTaken: Math.round(now() - start),
+
+          response_text: undefined,
+          response_audio: undefined,
         };
       }
     } else {
@@ -115,6 +134,9 @@ class Carter {
         triggeredSkills: [],
         executedSkills: [],
         timeTaken: Math.round(now() - start),
+
+        response_text: undefined,
+        response_audio: undefined,
       };
     }
 
@@ -156,6 +178,9 @@ class Carter {
       triggeredSkills,
       executedSkills,
       timeTaken: Math.round(now() - start),
+
+      response_text: data.output.text,
+      response_audio: data.output.audio,
     };
     const newConversationEntry: CarterConversationEntry = {
       isoTimestamp: DateTime.now().toISO(),
@@ -167,20 +192,29 @@ class Carter {
   }
 
   // Start a conversation with Carter
-  async opener(playerId?: string): Promise<CarterOpenerInteraction> {
+  async opener(playerId?: string, speak?: boolean | undefined): Promise<CarterOpenerInteraction> {
     if (playerId && typeof playerId !== 'string') {
       throw Error(`Carter.opener() requires a string as the first parameter. Received: ${playerId}.`);
     }
     if (!playerId) {
       playerId = uuidv1();
     }
+    if (speak) {
+      if (typeof speak !== 'boolean') {
+        throw Error(`Carter.opener() requires a boolean as speak parameter. Received: ${speak}.`);
+      }
+    } else {
+      speak = this.speakDefault as boolean;
+    }
+
     const interactionID = uuidv1();
     this.logger.debug(`Carter.opener() called with playerId: ${playerId}.`, { interactionID });
     const start = now();
     let data: CarterOpenerData;
-    const payload = {
+    const payload: CarterOpenerPayload = {
       key: this.apiKey,
       playerId,
+      speak,
     };
     const response = await fetch(URLS.opener, {
       method: 'POST',
@@ -196,10 +230,13 @@ class Carter {
       return {
         id: interactionID,
         data: undefined,
+        payload,
         ok: response.ok,
         statusCode: response.status,
         statusMessage: response.statusText,
         timeTaken: Math.round(now() - start),
+
+        response_text: undefined,
       };
     }
 
@@ -210,37 +247,52 @@ class Carter {
       return {
         id: interactionID,
         data: undefined,
+        payload,
         ok: response.ok,
         statusCode: response.status,
         statusMessage: response.statusText,
         timeTaken: Math.round(now() - start),
+
+        response_text: undefined,
       };
     }
 
     const interaction: CarterOpenerInteraction = {
       id: interactionID,
       data,
+      payload,
       ok: response.ok,
       statusCode: response.status,
       statusMessage: response.statusText,
       timeTaken: Math.round(now() - start),
+
+      response_text: data.sentence
     };
     this.logger.debug(`Carter.opener() finished.`, { interactionID });
     return interaction;
   }
 
   // Personalise text with Carter
-  async personalise(text: string): Promise<CarterPersonaliseInteraction> {
+  async personalise(text: string, speak?: boolean | undefined): Promise<CarterPersonaliseInteraction> {
     if (!text || typeof text !== 'string') {
       throw Error(`Carter.personalise() requires a string as the first parameter. Received: ${text}.`);
     }
+    if (speak) {
+      if (typeof speak !== 'boolean') {
+        throw Error(`Carter.personalise() requires a boolean as speak parameter. Received: ${speak}.`);
+      }
+    } else {
+      speak = this.speakDefault as boolean;
+    }
+
 
     const interactionID = uuidv1();
     this.logger.debug(`Carter.personalise() called with text: ${text}.`, { interactionID });
     const start = now();
-    const payload = {
+    const payload: CarterPersonalisePayload = {
       key: this.apiKey,
       text,
+      speak,
     };
     const response = await fetch(URLS.personalise, {
       method: 'POST',
@@ -256,10 +308,13 @@ class Carter {
       return {
         id: interactionID,
         data: undefined,
+        payload,
         ok: response.ok,
         statusCode: response.status,
         statusMessage: response.statusText,
         timeTaken: Math.round(now() - start),
+
+        response_text: undefined,
       };
     }
 
@@ -269,20 +324,25 @@ class Carter {
       return {
         id: interactionID,
         data,
+        payload,
         ok: response.ok,
         statusCode: response.status,
         statusMessage: response.statusText,
         timeTaken: Math.round(Math.round(now() - start)),
+
+        response_text: data.output.text,
       };
     } catch (e) {
       this.logger.error(`Carter.personalise() failed to parse response as JSON.`, { interactionID });
       return {
         id: interactionID,
         data: undefined,
+        payload,
         ok: response.ok,
         statusCode: response.status,
         statusMessage: response.statusText,
         timeTaken: Math.round(Math.round(now() - start)),
+        response_text: undefined,
       };
     }
   }

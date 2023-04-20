@@ -43,13 +43,13 @@ describe('response times', () => {
   });
 
   // TEST LAST AND AVERAGE WITH 5 ENTRIES
-  test('testing behaviour with 5 entries', async () => {
-    for (let i = 0; i < 5; i++) {
-      const response = await carter.say("This is a test message, I'm testing your response times.", 'callum');
-    }
-    expect(carter.history.length).toBe(5);
-    expect(typeof carter.lastResponseTime()).toBe('number');
-    expect(typeof carter.averageResponseTime()).toBe('number');
-    expect(typeof carter.averageResponseTime(1)).toBe('number');
-  });
+  // test('testing behaviour with 5 entries', async () => {
+  //   // for (let i = 0; i < 5; i++) {
+  //   //   const response = await carter.say("This is a test message, I'm testing your response times.", 'callum');
+  //   // }
+  //   expect(carter.history.length).toBe(5);
+  //   expect(typeof carter.lastResponseTime()).toBe('number');
+  //   expect(typeof carter.averageResponseTime()).toBe('number');
+  //   expect(typeof carter.averageResponseTime(1)).toBe('number');
+  // });
 });

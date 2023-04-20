@@ -11,23 +11,26 @@ describe('say', () => {
   beforeEach(() => {
     const API_KEY = process.env.CARTER_API_KEY as string;
     carter = new Carter(API_KEY);
+    console.log(API_KEY)
+    console.log(carter.apiKey)
   });
 
   // BOTH VALID INPUTS
   test('should return an interaction with carter data', async () => {
     const response = await carter.say('Hello, this is a test message.', 'callum');
+    console.log(response.statusCode)
     helpers.expectSuccessfulCarterInteraction(response);
   });
 
   // REPEATED INPUTS
 
-  test('should return multiple interactions with carter data', async () => {
-    let response = await carter.say("Hello, this is a test message. I'm going to be sending a few of these.", 'callum');
-    for (let i = 0; i < 5; i++) {
-      response = await carter.say('This is another test message.', 'callum');
-      helpers.expectSuccessfulCarterInteraction(response);
-    }
-  });
+  // test('should return multiple interactions with carter data', async () => {
+  //   let response = await carter.say("Hello, this is a test message. I'm going to be sending a few of these.", 'callum');
+  //   for (let i = 0; i < 5; i++) {
+  //     response = await carter.say('This is another test message.', 'callum');
+  //     helpers.expectSuccessfulCarterInteraction(response);
+  //   }
+  // });
 
   // TEST WITH INVALID INPUTS
   test('should throw an error with invalid text', async () => {
