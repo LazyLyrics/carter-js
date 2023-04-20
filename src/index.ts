@@ -237,6 +237,7 @@ class Carter {
         timeTaken: Math.round(now() - start),
 
         response_text: undefined,
+        response_audio: undefined,
       };
     }
 
@@ -254,6 +255,7 @@ class Carter {
         timeTaken: Math.round(now() - start),
 
         response_text: undefined,
+        response_audio: undefined,
       };
     }
 
@@ -266,7 +268,8 @@ class Carter {
       statusMessage: response.statusText,
       timeTaken: Math.round(now() - start),
 
-      response_text: data.sentence
+      response_text: data.sentence,
+      response_audio: undefined
     };
     this.logger.debug(`Carter.opener() finished.`, { interactionID });
     return interaction;
@@ -315,6 +318,7 @@ class Carter {
         timeTaken: Math.round(now() - start),
 
         response_text: undefined,
+        response_audio: undefined,
       };
     }
 
@@ -331,6 +335,7 @@ class Carter {
         timeTaken: Math.round(Math.round(now() - start)),
 
         response_text: data.output.text,
+        response_audio: undefined
       };
     } catch (e) {
       this.logger.error(`Carter.personalise() failed to parse response as JSON.`, { interactionID });
@@ -343,6 +348,7 @@ class Carter {
         statusMessage: response.statusText,
         timeTaken: Math.round(Math.round(now() - start)),
         response_text: undefined,
+        response_audio: undefined
       };
     }
   }

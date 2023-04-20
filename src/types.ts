@@ -32,6 +32,7 @@ export interface CarterOpenerInteraction {
   timeTaken: number;
 
   response_text: string | undefined;
+  response_audio: string | undefined;
 }
 export interface CarterPersonaliseInteraction {
   id: string;
@@ -43,6 +44,7 @@ export interface CarterPersonaliseInteraction {
   timeTaken: number;
 
   response_text: string | undefined;
+  response_audio: string | undefined;
 }
 
 export interface ForcedBehaviour {

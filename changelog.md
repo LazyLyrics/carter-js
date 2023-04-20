@@ -4,14 +4,16 @@ All notable changes (from [1.4.0] onwards) will be documented here.
 
 Please note that this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). As carter-js is built around an API which is still in beta, breaking changes may be introduced indirectly in minor releases. Major releases will be reserved for breaking changes to the way in carter-js is used. IE. function names, parameter depreciations etc. Where a breaking change is made on the API side, carter-js will be updated to reflect this change. However, as carter-js exposes the API response to the user, it is possible that this response may change and will not be reflected in a major release if the only difference is in the response from the API.
 
+I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed.
+
 ## [2.1] 2023-04-13 Adds support for optional speak parameter in say function
 
 ### Added
 
 - Optional `speak` parameter when creating a carter object. This will determine whether or not carter returns an audio URL, which is currently slowing down response times
-- Optional `speak` parameter to all interaction functions. This allows you to override the default class speak property.
+- Optional `speak` parameter to all interaction functions. This allows you to override the default class speak property. `opener` and `personalise` can also receive this parameter, but the audio url is not currently supported by the API for these functions, so related properties in the interaction will remain undefined.
 - All interactions now have a `response_text` property, which extracts the response text from the API response. This is to streamline getting your output, but also allows me to adapt carter-js to the API changes in the future. **Using this property to extract your output is strongly recommended as it will always work, regardless of API changes.**
-- `say` now has a `response_audio` parameter which extracts the audio URL from the API response. See `resposne_text`. `opener` and `personalise` will receive this property in future releases, at this time it is not supported by the API.
+- `say` now has a `response_audio` parameter which extracts the audio URL from the API response. See `response_text`. `opener` and `personalise` also have this property, but it will always be undefined as the API does not currently support audio for these functions. Another minor update will be released with this functionality when available. **Using this property to extract your audio is strongly recommended as it will always work, regardless of API changes.**
 
 ### Changed
 
