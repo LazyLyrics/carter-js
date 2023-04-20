@@ -33,7 +33,7 @@ A Carter object contains all the necessary methods for interacting with your Car
 ```js
   // Send a message to your Carter agent
   const interaction = await carter.say("Hello", 'your_player_id')
-  const reply_message = interaction.data.output.text
+  const response_text = interaction.response_text
 ```
 
 `Carter.say()` sends a fetch request, extracts the useful elements of the response and returns a `CarterInteraction` object.
