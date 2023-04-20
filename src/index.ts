@@ -35,9 +35,9 @@ class Carter {
   history: CarterConversationEntry[] = [];
   skills: CarterSkill[] = [];
   logger: Logger = new logging.NoOpLogger();
-  speakDefault: Boolean = true;
+  speakDefault: boolean = true;
 
-  constructor(apiKey: string, userLogger?: Logger, speak?: Boolean) {
+  constructor(apiKey: string, userLogger?: Logger, speak?: boolean) {
     if (!apiKey || typeof apiKey !== 'string') {
       throw Error(`Carter constructor requires a string as the first parameter. Received: ${apiKey}.`);
     }
