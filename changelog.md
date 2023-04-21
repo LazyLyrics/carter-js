@@ -4,7 +4,7 @@ All notable changes (from [1.4.0] onwards) will be documented here.
 
 Please note that this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). As carter-js is built around an API which is still in beta, breaking changes may be introduced indirectly in minor releases. Major releases will be reserved for breaking changes to the way in carter-js is used. IE. function names, parameter depreciations etc. Where a breaking change is made on the API side, carter-js will be updated to reflect this change. However, as carter-js exposes the API response to the user, it is possible that this response may change and will not be reflected in a major release if the only difference is in the response from the API.
 
-I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed.
+I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed. Previous versions of carter-js are always likely to be outdated as the API progresses.
 
 ## [2.1] 2023-04-13 Adds support for optional speak parameter in say function
 
