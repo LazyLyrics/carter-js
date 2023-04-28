@@ -35,7 +35,7 @@ class Carter {
   history: CarterConversationEntry[] = [];
   skills: CarterSkill[] = [];
   logger: Logger = new logging.NoOpLogger();
-  speakDefault: boolean = true;
+  speakDefault: boolean = false;
 
   constructor(apiKey: string, userLogger?: Logger, speak?: boolean) {
     if (!apiKey || typeof apiKey !== 'string') {

@@ -6,6 +6,12 @@ Please note that this project adheres to [Semantic Versioning](https://semver.or
 
 I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed. Previous versions of carter-js are always likely to be outdated as the API progresses.
 
+## [2.2] 2023-04-28 Changes default speak to false
+
+### Changed
+
+- Default speak parameter is now false. This is to move carter-js inline with the API. If you want to use the audio url, you must now pass speak: true to the carter constructor, when calling carter functions.
+
 ## [2.1] 2023-04-13 Adds support for optional speak parameter in say function
 
 ### Added

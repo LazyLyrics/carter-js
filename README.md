@@ -23,10 +23,12 @@
   // Create a Carter object
   // make sure to use the new keyword
   // in order to create a Carter instance
-  const carter = new Carter(apiKey, userLogger)
+  const carter = new Carter(apiKey, userLogger, speak)
 ```
 
 A Carter object contains all the necessary methods for interacting with your Carter agent. You'll need to provide your API key to create this. Make sure you keep this key secret while developing, as this key will allow anyone access to your agent. You can provide your logger object to take advantage of the built-in logging functionality. If you don't provide a logger object, `carter-js` will not log anything. Any logger with `debug`. `info`, `warn`, and `error` methods will work, but this feature is in beta.
+
+`speak` is a boolean value which determines whether or not an `audio_url` is returned from the API. Response times are faster with `speak` set to `false`, but you won't be able to access the `audio_url`. You can set the default `speak` value on the class constructor as above, or on a per-interaction basis. If you don't provide a default to the constructor, `speak` will default to `false`.
 
 ### Send a message to your Carter agent
 
