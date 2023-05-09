@@ -11,8 +11,8 @@ describe('opener', () => {
   });
   // TEST WITH VALID INPUT
   test('test opener with valid input', async () => {
-    const response = await carter.opener('callum');
-    expect(types.isCarterInteraction(response)).toBeTruthy();
+    const interaction = await carter.opener('callum');
+    expect(types.isCarterInteraction(interaction)).toBeTruthy();
   });
   // TEST WITH INVALID INPUT
   test('test opener with invalid input', async () => {
@@ -21,7 +21,6 @@ describe('opener', () => {
   // TEST WITH NO PLAYER ID
   test('test opener with no player id', async () => {
     const interaction = await carter.opener();
-    console.log(JSON.stringify(interaction, null, 2))
     expect(types.isCarterInteraction(interaction)).toBeTruthy();
   });
 });

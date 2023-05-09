@@ -63,7 +63,7 @@ export async function buildInteraction(interactionData: InteractionData): Promis
     outputAudio: carterData?.output.audio || null,
     forcedBehaviours: carterData?.forced_behaviours || null,
     triggeredSkills: triggeredSkills,
-    executedSkills: triggeredSkills
+    executedSkills: executedSkills
   };
 
   return interaction

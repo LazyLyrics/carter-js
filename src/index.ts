@@ -210,7 +210,7 @@ class Carter {
 
     const interaction = await buildInteraction({
       id: interactionID,
-      type: "say",
+      type: "opener",
       response,
       carterData: data,
       payload,
