@@ -1,4 +1,4 @@
-import { consoleLogger } from "../../logger";
+import { consoleLogger } from "../consoleLogger";
 import Carter from "../../index";
 import dotenv from 'dotenv';
 dotenv.config()

@@ -20,10 +20,3 @@ export function validateLogger(logger: any): logger is types.Logger {
     typeof logger.error === 'function'
   );
 }
-
-export class consoleLogger implements types.Logger {
-  debug = console.debug;
-  info = console.info;
-  warn = console.warn;
-  error = console.error;
-}

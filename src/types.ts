@@ -49,7 +49,7 @@ export async function buildInteraction(interactionData: InteractionData): Promis
   const interaction = {
     type,
     characterName: carterData?.agent?.name,
-    id: id,
+    id,
     payload,
     carterData,
     timeTaken: Math.round(now() - start),
@@ -62,8 +62,8 @@ export async function buildInteraction(interactionData: InteractionData): Promis
     outputText: carterData?.output.text || null,
     outputAudio: carterData?.output.audio || null,
     forcedBehaviours: carterData?.forced_behaviours || null,
-    triggeredSkills: triggeredSkills,
-    executedSkills: executedSkills
+    triggeredSkills,
+    executedSkills
   };
 
   return interaction
