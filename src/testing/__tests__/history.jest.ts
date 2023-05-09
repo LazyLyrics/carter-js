@@ -23,7 +23,7 @@ describe('history', () => {
 
     expect(carter.history.length).toBe(1);
     expect(carter.latest()).toBeDefined();
-    expect(types.isCarterConversationEntry(carter.latest())).toBeTruthy();
+    expect(types.isCarterInteraction(carter.latest())).toBeTruthy();
   });
 
   // TEST HISTORY WITH NO ENTRIES

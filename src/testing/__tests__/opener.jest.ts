@@ -12,11 +12,16 @@ describe('opener', () => {
   // TEST WITH VALID INPUT
   test('test opener with valid input', async () => {
     const response = await carter.opener('callum');
-    expect(types.isCarterOpenerInteraction(response)).toBeTruthy();
+    expect(types.isCarterInteraction(response)).toBeTruthy();
   });
   // TEST WITH INVALID INPUT
   test('test opener with invalid input', async () => {
     await expect(carter.opener(4 as any)).rejects.toThrowError();
   });
-  // TEST WITH VALID INPUT WITH BAD API RESPONSE - nock - still to add
+  // TEST WITH NO PLAYER ID
+  test('test opener with no player id', async () => {
+    const interaction = await carter.opener();
+    console.log(JSON.stringify(interaction, null, 2))
+    expect(types.isCarterInteraction(interaction)).toBeTruthy();
+  });
 });

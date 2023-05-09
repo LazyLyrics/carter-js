@@ -12,11 +12,30 @@ describe('personalise', () => {
   // TEST WITH VALID INPUT
   test('test personalise with valid input', async () => {
     const response = await carter.personalise('This is a sentence which the api is going to personalise');
-    expect(types.isCarterPersonaliseInteraction(response)).toBeTruthy();
+    expect(types.isCarterInteraction(response)).toBeTruthy();
   });
   // TEST WITH INVALID INPUT
   test('test opener with invalid input', async () => {
     await expect(carter.personalise(4 as any)).rejects.toThrowError();
   });
-  // TEST WITH VALID INPUT WITH BAD API RESPONSE - nock - still to add
+  // TEST WITH ALL SPEAK VALUES
+  test('test personalise with speak = true', async () => {
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', true);
+    expect(types.isCarterInteraction(response)).toBeTruthy();
+  });
+
+  test('test personalise with speak = false', async () => {
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', false);
+    expect(types.isCarterInteraction(response)).toBeTruthy();
+  });
+
+  test('test personalise with speak = undefined', async () => {
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', undefined);
+    expect(types.isCarterInteraction(response)).toBeTruthy();
+  });
+
+  test('test personalise with speak = number', async () => {
+    const shouldError = async () => {await carter.personalise('This is a sentence which the api is going to personalise', 2 as any);}
+    await expect(shouldError).rejects.toThrowError();
+  });
 });

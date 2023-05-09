@@ -21,12 +21,18 @@ describe('response times', () => {
     carter = new Carter(process.env.CARTER_API_KEY as string);
   });
 
+  // TEST WITH INCORRECT MINUTES TYPE
+  test('testing behaviour with incorrect minutes type', async () => {
+    const shouldError = async () => {await carter.averageResponseTime('1' as any);}
+    await expect(shouldError).rejects.toThrowError();
+  });
+
   // TEST LAST AND AVERAGE REPONSE WITH ONE ENTRY
 
   test('testing behaviour with one entry', async () => {
     await carter.say("This is a test message, I'm testing your response times.", 'callum');
     expect(carter.history.length).toBe(1);
-    expect(carter.lastResponseTime()).toBe(carter.history[0].interaction.timeTaken);
+    expect(carter.lastResponseTime()).toBe(carter.history[0].timeTaken);
     expect(typeof carter.lastResponseTime()).toBe('number');
 
     expect(typeof carter.averageResponseTime()).toBe('number');

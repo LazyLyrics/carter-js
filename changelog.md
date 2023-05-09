@@ -6,11 +6,30 @@ Please note that this project adheres to [Semantic Versioning](https://semver.or
 
 I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed. Previous versions of carter-js are always likely to be outdated as the API progresses.
 
+## [3.0] 2023-05-09
+
+### Changed
+
+- `carter.history` now consists of only interactions, ordered by default with the newst first in the array. This simplified the type and still enables easy sorting and filtering where necessary, as the timestamp is now included in the interaction object.
+- Wherever possible, properties have moved to being `null` when not present. This is both more semantically correct and allows for less errors when trying to access undefined properties.
+- All carter interactions now contain an error message property `interaction.errorMessage`, which will be populated where appropriate and possible for better debugging.
+- carter.registerSkill now takes a skill object as its only parameter. This object contains the skill name, action and options. See docs for details.
+
+#### Interactions
+
+- Now contain:
+  - `type` property, which is a string of the interaction type ie. "say", "opener" or "personalise"
+  - `isoTimestamp` property, which is an ISO string of the timestamp of the interaction
+  - `characterName` property, which is a string of the character name
+  - `url` property, which is a string of the url the request was sent to
+  - `forcedBehaviours` property, which is an array of triggered forced behaviours from carter. Not to be confused with `triggeredSkills` and `executedSkills`, which are carter-js skills created as a result of forced behaviours.
+  - All interactions are now of the same type and structure, legacy properties have been left in the object while they are still present in the api response, but will be removed in a future release.
+
 ## [2.2] 2023-04-28 Changes default speak to false
 
 ### Changed
 
-- Default speak parameter is now false. This is to move carter-js inline with the API. If you want to use the audio url, you must now pass speak: true to the carter constructor, when calling carter functions.
+- Default speak parameter is now false. This is to move carter-js inline with the API. If you want to use the audio url, you must now pass speak: true to the carter constructor, or when calling carter functions.
 
 ## [2.1] 2023-04-13 Adds support for optional speak parameter in say function
 
