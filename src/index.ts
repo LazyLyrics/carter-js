@@ -100,13 +100,13 @@ class Carter {
     } catch (e) {
       this.logger.warn(`Carter.say() failed to fetch.`, { interactionID });
       errorMessage = (e as Error).message;
-      response = null
+      response = null;
     }
     if (response) {
       try {
         data = (await response.json()) as CarterData;
       } catch (e) {
-        data = null
+        data = null;
         this.logger.warn(`Carter.say() failed to parse response as JSON.`, { interactionID });
       }
     }
@@ -147,15 +147,15 @@ class Carter {
 
     interaction = await buildInteraction({
       id: interactionID,
-      type: "say",
+      type: 'say',
       response,
       carterData: data,
       payload,
       start,
       triggeredSkills,
       executedSkills,
-      errorMessage: null
-    })
+      errorMessage: null,
+    });
     this.history.unshift(interaction);
     this.logger.debug(`Carter.say() finished.`, { interactionID });
     return interaction;
@@ -196,7 +196,7 @@ class Carter {
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
       });
-    } catch(e) {
+    } catch (e) {
       this.logger.warn(`Carter.opener() failed to fetch.`, { interactionID });
       errorMessage = (e as Error).message;
     }
@@ -210,15 +210,15 @@ class Carter {
 
     const interaction = await buildInteraction({
       id: interactionID,
-      type: "opener",
+      type: 'opener',
       response,
       carterData: data,
       payload,
       start,
       triggeredSkills: null,
       executedSkills: null,
-      errorMessage
-    })
+      errorMessage,
+    });
 
     this.logger.debug(`Carter.opener() finished.`, { interactionID });
     return interaction;
@@ -263,8 +263,7 @@ class Carter {
     if (response) {
       try {
         data = await response.json();
-      }
-      catch (e) {
+      } catch (e) {
         this.logger.warn(`Carter.personalise() failed to parse response as JSON.`, { interactionID });
         errorMessage = (e as Error).message;
       }
@@ -272,15 +271,15 @@ class Carter {
 
     const interaction = await buildInteraction({
       id: interactionID,
-      type: "personalise",
+      type: 'personalise',
       response,
       carterData: data,
       payload,
       start,
       triggeredSkills: null,
       executedSkills: null,
-      errorMessage
-    })
+      errorMessage,
+    });
 
     this.logger.debug(`Carter.personalise() finished.`, { interactionID });
     return interaction;

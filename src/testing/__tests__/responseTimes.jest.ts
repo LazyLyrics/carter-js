@@ -23,7 +23,9 @@ describe('response times', () => {
 
   // TEST WITH INCORRECT MINUTES TYPE
   test('testing behaviour with incorrect minutes type', async () => {
-    const shouldError = async () => {await carter.averageResponseTime('1' as any);}
+    const shouldError = async () => {
+      await carter.averageResponseTime('1' as any);
+    };
     await expect(shouldError).rejects.toThrowError();
   });
 

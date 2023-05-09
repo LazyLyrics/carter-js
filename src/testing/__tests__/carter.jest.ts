@@ -8,11 +8,15 @@ describe('constructor tests', () => {
   let carter: Carter;
   // TEST WITH VALID INPUT
   test('test carter with valid options', async () => {
-    expect(() => {const carter = new Carter(process.env.CARTER_API_KEY as string)}).not.toThrowError();
+    expect(() => {
+      const carter = new Carter(process.env.CARTER_API_KEY as string);
+    }).not.toThrowError();
   });
   // TEST WITH INVALID INPUT
   test('test carter with invalid apiKey', async () => {
-    expect(() => {const carter = new Carter(4 as any)}).toThrowError();
+    expect(() => {
+      const carter = new Carter(4 as any);
+    }).toThrowError();
   });
   // TEST WITH ALL POSSIBLE SPEAK VALUES
   test('test carter with speak = true', async () => {

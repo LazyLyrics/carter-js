@@ -35,7 +35,9 @@ describe('personalise', () => {
   });
 
   test('test personalise with speak = number', async () => {
-    const shouldError = async () => {await carter.personalise('This is a sentence which the api is going to personalise', 2 as any);}
+    const shouldError = async () => {
+      await carter.personalise('This is a sentence which the api is going to personalise', 2 as any);
+    };
     await expect(shouldError).rejects.toThrowError();
   });
 });

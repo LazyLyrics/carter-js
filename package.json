@@ -1,6 +1,6 @@
 {
   "name": "carter-js",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "A utility module for easy integration with Carter",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

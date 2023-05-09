@@ -22,8 +22,8 @@ describe('Skills', () => {
       action: (response: string) => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
-        }
-        return {output: response, skillData: gotSomeDataBruv};
+        };
+        return { output: response, skillData: gotSomeDataBruv };
       },
       auto: true,
     };
@@ -33,8 +33,8 @@ describe('Skills', () => {
       action: (response: string) => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
-        }
-        return {output: response, skillData: gotSomeDataBruv};
+        };
+        return { output: response, skillData: gotSomeDataBruv };
       },
       auto: false,
     };
@@ -44,9 +44,9 @@ describe('Skills', () => {
       action: (response: string) => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
-        }
-        return {output: response, skillData: gotSomeDataBruv};
-      }
+        };
+        return { output: response, skillData: gotSomeDataBruv };
+      },
     };
   });
 
@@ -63,10 +63,9 @@ describe('Skills', () => {
 
   // REGISTER DUPLICATE SKILL
   test('should not register duplicate skills', () => {
-
     carter.registerSkill(skillAuto);
     expect(carter.skills).toContainEqual(skillAuto);
-    expect(() => carter.registerSkill(skillAuto)).toThrow()
+    expect(() => carter.registerSkill(skillAuto)).toThrow();
 
     const skillInstances = carter.skills.filter((s) => s.name === skillAuto.name);
     expect(skillInstances.length).toBe(1);
@@ -118,11 +117,10 @@ describe('Skills', () => {
 
   // FORCED BEHAVIOUR TESTS
   test('should trigger forced behaviours', async () => {
-
     const weatherSkill = {
       name: 'weather',
       action: (response: string) => {
-        return {output: "WEATHER"};
+        return { output: 'WEATHER' };
       },
       auto: true,
     };
@@ -131,8 +129,8 @@ describe('Skills', () => {
     const newsSkill = {
       name: 'news',
       action: (response: string) => {
-        return {output: "NEWS"};
-      }
+        return { output: 'NEWS' };
+      },
     };
     carter.registerSkill(newsSkill);
 

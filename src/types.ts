@@ -13,7 +13,7 @@ export interface Logger {
 
 export interface CarterInteraction {
   type: string;
-  characterName?: string
+  characterName?: string;
   id: string;
   payload: CarterPayload | CarterOpenerPayload | CarterPersonalisePayload;
   carterData: CarterData | null;
@@ -41,7 +41,7 @@ export type InteractionData = {
   triggeredSkills: CarterSkillInstance[] | null;
   executedSkills: CarterSkillInstance[] | null;
   errorMessage: string | null;
-}
+};
 
 export async function buildInteraction(interactionData: InteractionData): Promise<CarterInteraction> {
   const { id, type, response, carterData, payload, start, triggeredSkills, executedSkills } = interactionData;
@@ -63,10 +63,10 @@ export async function buildInteraction(interactionData: InteractionData): Promis
     outputAudio: carterData?.output.audio || null,
     forcedBehaviours: carterData?.forced_behaviours || null,
     triggeredSkills,
-    executedSkills
+    executedSkills,
   };
 
-  return interaction
+  return interaction;
 }
 
 export interface ForcedBehaviour {
@@ -82,7 +82,7 @@ export interface CarterData {
   };
   agent: {
     name: string;
-  }
+  };
   input?: string;
   forced_behaviours?: ForcedBehaviour[];
 }
@@ -169,8 +169,11 @@ export function isInteractionData(obj: any): obj is InteractionData {
     (obj.carterData === undefined || isCarterData(obj.carterData)) &&
     typeof obj.start === 'number' &&
     (isCarterPayload(obj.payload) || isCarterOpenerPayload(obj.payload) || isCarterPersonalisePayload(obj.payload)) &&
-    (obj.triggeredSkills === undefined || (Array.isArray(obj.triggeredSkills) && obj.triggeredSkills.every((skill: any) => isCarterSkillInstance(skill)))) &&
-    (obj.executedSkills === undefined || (Array.isArray(obj.executedSkills) && obj.executedSkills.every((skill: any) => isCarterSkillInstance(skill))))
+    (obj.triggeredSkills === undefined ||
+      (Array.isArray(obj.triggeredSkills) &&
+        obj.triggeredSkills.every((skill: any) => isCarterSkillInstance(skill)))) &&
+    (obj.executedSkills === undefined ||
+      (Array.isArray(obj.executedSkills) && obj.executedSkills.every((skill: any) => isCarterSkillInstance(skill))))
   );
 }
 
@@ -189,9 +192,14 @@ export function isCarterInteraction(obj: any): obj is CarterInteraction {
     (obj.statusMessage === null || typeof obj.statusMessage === 'string') &&
     (obj.outputText === null || typeof obj.outputText === 'string') &&
     (obj.outputAudio === null || typeof obj.outputAudio === 'string') &&
-    (obj.forcedBehaviours === null || Array.isArray(obj.forcedBehaviours) && obj.forcedBehaviours.every((fb: any) => isForcedBehaviour(fb))) &&
-    (obj.triggeredSkills === null || Array.isArray(obj.triggeredSkills) && obj.triggeredSkills.every((skill: any) => isCarterSkillInstance(skill))) &&
-    (obj.executedSkills === undefined || obj.executedSkills === null || Array.isArray(obj.executedSkills) && obj.executedSkills.every((skill: any) => isCarterSkillInstance(skill)))
+    (obj.forcedBehaviours === null ||
+      (Array.isArray(obj.forcedBehaviours) && obj.forcedBehaviours.every((fb: any) => isForcedBehaviour(fb)))) &&
+    (obj.triggeredSkills === null ||
+      (Array.isArray(obj.triggeredSkills) &&
+        obj.triggeredSkills.every((skill: any) => isCarterSkillInstance(skill)))) &&
+    (obj.executedSkills === undefined ||
+      obj.executedSkills === null ||
+      (Array.isArray(obj.executedSkills) && obj.executedSkills.every((skill: any) => isCarterSkillInstance(skill))))
   );
 }
 
@@ -203,11 +211,10 @@ export function isCarterData(obj: any): obj is CarterData {
     (obj.output.audio === null || typeof obj.output.audio === 'string') &&
     typeof obj.agent.name === 'string' &&
     (obj.input === undefined || typeof obj.input === 'string') &&
-    (obj.forced_behaviours === undefined || Array.isArray(obj.forced_behaviours) && obj.forced_behaviours.every((fb: any) => isForcedBehaviour(fb)))
+    (obj.forced_behaviours === undefined ||
+      (Array.isArray(obj.forced_behaviours) && obj.forced_behaviours.every((fb: any) => isForcedBehaviour(fb))))
   );
 }
-
-
 
 export function isForcedBehaviour(obj: any): obj is ForcedBehaviour {
   return typeof obj.name === 'string';
@@ -223,32 +230,20 @@ export function isCarterPayload(obj: any): obj is CarterPayload {
 }
 
 export function isCarterOpenerPayload(obj: any): obj is CarterOpenerPayload {
-  return (
-    typeof obj.key === 'string' &&
-    typeof obj.playerId === 'string' &&
-    typeof obj.speak === 'boolean'
-  );
+  return typeof obj.key === 'string' && typeof obj.playerId === 'string' && typeof obj.speak === 'boolean';
 }
 
 export function isCarterPersonalisePayload(obj: any): obj is CarterPersonalisePayload {
-  return (
-    typeof obj.key === 'string' &&
-    typeof obj.text === 'string' &&
-    typeof obj.speak === 'boolean'
-  );
+  return typeof obj.key === 'string' && typeof obj.text === 'string' && typeof obj.speak === 'boolean';
 }
 
 export function isCarterSkillOutput(obj: any): obj is CarterSkillOutput {
-  return (
-    typeof obj.output === 'string' &&
-    (obj.skillData === undefined || typeof obj.skillData === 'object')
-  );
+  return typeof obj.output === 'string' && (obj.skillData === undefined || typeof obj.skillData === 'object');
 }
 
 export function isCarterSkillAction(obj: any): obj is CarterSkillAction {
   return typeof obj === 'function';
 }
-
 
 export function isCarterSkillInstance(obj: any): obj is CarterSkillInstance {
   return (
