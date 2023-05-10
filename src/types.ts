@@ -113,7 +113,7 @@ export type CarterSkill = {
 };
 
 export type CarterSkillAction = (
-  response: string,
+  response: string | null,
 ) => Promise<CarterSkillOutput> | CarterSkillOutput | Promise<void> | void;
 
 export interface CarterSkillOutput {
@@ -125,11 +125,11 @@ export class CarterSkillInstance {
   name: string;
   execute;
   skillData?: any;
-  output: string;
+  output: string | null;
   executed: boolean = false;
   errors: string[] = [];
 
-  constructor(skill: CarterSkill, output: string) {
+  constructor(skill: CarterSkill, output: string | null) {
     this.name = skill.name;
     this.output = output;
     this.skillData = undefined;
@@ -151,103 +151,103 @@ export class CarterSkillInstance {
 
 // TYPE GUARDS
 
-// export function isCarterInteraction(obj: any): obj is CarterInteraction {
-//   return (
-//     typeof obj.type === 'string' &&
-//     (typeof obj.characterName === 'string' || obj.characterName === null) &&
-//     typeof obj.id === 'string' &&
-//     (isCarterPayload(obj.payload) || isCarterOpenerPayload(obj.payload) || isCarterPersonalisePayload(obj.payload)) &&
-//     (obj.carterData === null || isCarterData(obj.carterData)) &&
-//     typeof obj.timeTaken === 'number' &&
-//     typeof obj.isoTimestamp === 'string' &&
-//     (obj.url === null || typeof obj.url === 'string') &&
-//     (obj.ok === null || typeof obj.ok === 'boolean') &&
-//     (obj.statusCode === null || typeof obj.statusCode === 'number') &&
-//     (obj.statusMessage === null || typeof obj.statusMessage === 'string') &&
-//     (obj.outputText === null || typeof obj.outputText === 'string') &&
-//     (obj.outputAudio === null || typeof obj.outputAudio === 'string') &&
-//     (obj.forcedBehaviours === null || isArrayOfType(obj.forcedBehaviours, isForcedBehaviour)) &&
-//     (obj.triggeredSkills === null || isArrayOfType(obj.triggeredSkills, isCarterSkillInstance)) &&
-//     (obj.executedSkills === null || isArrayOfType(obj.executedSkills, isCarterSkillInstance))
-//   );
-// }
-
 export function isCarterInteraction(obj: any): obj is CarterInteraction {
-  function printMessage(message: string): void {
-    console.error(message);
-  }
-
-  if (typeof obj.type !== 'string') {
-    printMessage('Failed check: obj.type should be a string');
-    return false;
-  }
-  if (typeof obj.characterName !== 'string' && obj.characterName !== null) {
-    printMessage('Failed check: obj.characterName should be a string or null');
-    return false;
-  }
-  if (typeof obj.id !== 'string') {
-    printMessage('Failed check: obj.id should be a string');
-    return false;
-  }
-  if (
-    !isCarterPayload(obj.payload) &&
-    !isCarterOpenerPayload(obj.payload) &&
-    !isCarterPersonalisePayload(obj.payload)
-  ) {
-    printMessage('Failed check: obj.payload should be a valid payload');
-    return false;
-  }
-  if (obj.carterData !== null && !isCarterData(obj.carterData)) {
-    printMessage('Failed check: obj.carterData should be null or a valid CarterData');
-    return false;
-  }
-  if (typeof obj.timeTaken !== 'number') {
-    printMessage('Failed check: obj.timeTaken should be a number');
-    return false;
-  }
-  if (typeof obj.isoTimestamp !== 'string') {
-    printMessage('Failed check: obj.isoTimestamp should be a string');
-    return false;
-  }
-  if (obj.url !== null && typeof obj.url !== 'string') {
-    printMessage('Failed check: obj.url should be null or a string');
-    return false;
-  }
-  if (obj.ok !== null && typeof obj.ok !== 'boolean') {
-    printMessage('Failed check: obj.ok should be null or a boolean');
-    return false;
-  }
-  if (obj.statusCode !== null && typeof obj.statusCode !== 'number') {
-    printMessage('Failed check: obj.statusCode should be null or a number');
-    return false;
-  }
-  if (obj.statusMessage !== null && typeof obj.statusMessage !== 'string') {
-    printMessage('Failed check: obj.statusMessage should be null or a string');
-    return false;
-  }
-  if (obj.outputText !== null && typeof obj.outputText !== 'string') {
-    printMessage('Failed check: obj.outputText should be null or a string');
-    return false;
-  }
-  if (obj.outputAudio !== null && typeof obj.outputAudio !== 'string') {
-    printMessage('Failed check: obj.outputAudio should be null or a string');
-    return false;
-  }
-  if (obj.forcedBehaviours !== null && !isArrayOfType(obj.forcedBehaviours, isForcedBehaviour)) {
-    printMessage('Failed check: obj.forcedBehaviours should be null or an array of ForcedBehaviour');
-    return false;
-  }
-  if (obj.triggeredSkills !== null && !isArrayOfType(obj.triggeredSkills, isCarterSkillInstance)) {
-    printMessage('Failed check: obj.triggeredSkills should be null or an array of CarterSkillInstance');
-    return false;
-  }
-  if (obj.executedSkills !== null && !isArrayOfType(obj.executedSkills, isCarterSkillInstance)) {
-    printMessage('Failed check: obj.executedSkills should be null or an array of CarterSkillInstance');
-    return false;
-  }
-
-  return true;
+  return (
+    typeof obj.type === 'string' &&
+    (typeof obj.characterName === 'string' || obj.characterName === null) &&
+    typeof obj.id === 'string' &&
+    (isCarterPayload(obj.payload) || isCarterOpenerPayload(obj.payload) || isCarterPersonalisePayload(obj.payload)) &&
+    (obj.carterData === null || isCarterData(obj.carterData)) &&
+    typeof obj.timeTaken === 'number' &&
+    typeof obj.isoTimestamp === 'string' &&
+    (obj.url === null || typeof obj.url === 'string') &&
+    (obj.ok === null || typeof obj.ok === 'boolean') &&
+    (obj.statusCode === null || typeof obj.statusCode === 'number') &&
+    (obj.statusMessage === null || typeof obj.statusMessage === 'string') &&
+    (obj.outputText === null || typeof obj.outputText === 'string') &&
+    (obj.outputAudio === null || typeof obj.outputAudio === 'string') &&
+    (obj.forcedBehaviours === null || isArrayOfType(obj.forcedBehaviours, isForcedBehaviour)) &&
+    (obj.triggeredSkills === null || isArrayOfType(obj.triggeredSkills, isCarterSkillInstance)) &&
+    (obj.executedSkills === null || isArrayOfType(obj.executedSkills, isCarterSkillInstance))
+  );
 }
+
+// export function isCarterInteraction(obj: any): obj is CarterInteraction {
+//   function printMessage(message: string): void {
+//     console.log(message);
+//   }
+
+//   if (typeof obj.type !== 'string') {
+//     printMessage('Failed check: obj.type should be a string');
+//     return false;
+//   }
+//   if (typeof obj.characterName !== 'string' && obj.characterName !== null) {
+//     printMessage('Failed check: obj.characterName should be a string or null');
+//     return false;
+//   }
+//   if (typeof obj.id !== 'string') {
+//     printMessage('Failed check: obj.id should be a string');
+//     return false;
+//   }
+//   if (
+//     !isCarterPayload(obj.payload) &&
+//     !isCarterOpenerPayload(obj.payload) &&
+//     !isCarterPersonalisePayload(obj.payload)
+//   ) {
+//     printMessage('Failed check: obj.payload should be a valid payload');
+//     return false;
+//   }
+//   if (obj.carterData !== null && !isCarterData(obj.carterData)) {
+//     printMessage('Failed check: obj.carterData should be null or a valid CarterData');
+//     return false;
+//   }
+//   if (typeof obj.timeTaken !== 'number') {
+//     printMessage('Failed check: obj.timeTaken should be a number');
+//     return false;
+//   }
+//   if (typeof obj.isoTimestamp !== 'string') {
+//     printMessage('Failed check: obj.isoTimestamp should be a string');
+//     return false;
+//   }
+//   if (obj.url !== null && typeof obj.url !== 'string') {
+//     printMessage('Failed check: obj.url should be null or a string');
+//     return false;
+//   }
+//   if (obj.ok !== null && typeof obj.ok !== 'boolean') {
+//     printMessage('Failed check: obj.ok should be null or a boolean');
+//     return false;
+//   }
+//   if (obj.statusCode !== null && typeof obj.statusCode !== 'number') {
+//     printMessage('Failed check: obj.statusCode should be null or a number');
+//     return false;
+//   }
+//   if (obj.statusMessage !== null && typeof obj.statusMessage !== 'string') {
+//     printMessage('Failed check: obj.statusMessage should be null or a string');
+//     return false;
+//   }
+//   if (obj.outputText !== null && typeof obj.outputText !== 'string') {
+//     printMessage('Failed check: obj.outputText should be null or a string');
+//     return false;
+//   }
+//   if (obj.outputAudio !== null && typeof obj.outputAudio !== 'string') {
+//     printMessage('Failed check: obj.outputAudio should be null or a string');
+//     return false;
+//   }
+//   if (obj.forcedBehaviours !== null && !isArrayOfType(obj.forcedBehaviours, isForcedBehaviour)) {
+//     printMessage('Failed check: obj.forcedBehaviours should be null or an array of ForcedBehaviour');
+//     return false;
+//   }
+//   if (obj.triggeredSkills !== null && !isArrayOfType(obj.triggeredSkills, isCarterSkillInstance)) {
+//     printMessage('Failed check: obj.triggeredSkills should be null or an array of CarterSkillInstance');
+//     return false;
+//   }
+//   if (obj.executedSkills !== null && !isArrayOfType(obj.executedSkills, isCarterSkillInstance)) {
+//     printMessage('Failed check: obj.executedSkills should be null or an array of CarterSkillInstance');
+//     return false;
+//   }
+
+//   return true;
+// }
 
 
 export function isArrayOfType<T>(arr: any, typeGuard: (item: any) => item is T): arr is T[] {
@@ -264,53 +264,54 @@ export function isForcedBehaviour(obj: any): obj is ForcedBehaviour {
 }
 
 // Type guard for CarterData
-// export function isCarterData(obj: any): obj is CarterData {
-//   return (
-//     (obj.sentence === undefined || obj.sentence === null || typeof obj.sentence === 'string') &&
-//     (obj.content === undefined || obj.content === null || typeof obj.content === 'string') &&
-//     (typeof obj.output.text === 'string' || obj.output.text === null) &&
-//     (obj.output.audio === null || typeof obj.output.audio === 'string') &&
-//     typeof obj.agent.name === 'string' &&
-//     (obj.input === undefined || typeof obj.input === 'string') &&
-//     (obj.forced_behaviours === undefined || isArrayOfType(obj.forced_behaviours, isForcedBehaviour))
-//   );
-// }
 export function isCarterData(obj: any): obj is CarterData {
-  function printMessage(message: string): void {
-    console.error(message);
-  }
-
-  if (obj.sentence !== undefined && obj.sentence !== null && typeof obj.sentence !== 'string') {
-    printMessage('Failed check: obj.sentence should be undefined or a string - ' + obj.sentence);
-    return false;
-  }
-  if (obj.content !== undefined && obj.content !== null && typeof obj.content !== 'string') {
-    printMessage('Failed check: obj.content should be undefined or a string - ' + obj.content);
-    return false;
-  }
-  if (typeof obj.output.text !== 'string' && obj.output.text !== null) {
-    printMessage('Failed check: obj.output.text should be a string');
-    return false;
-  }
-  if (obj.output.audio !== null && typeof obj.output.audio !== 'string') {
-    printMessage('Failed check: obj.output.audio should be null or a string');
-    return false;
-  }
-  if (typeof obj.agent.name !== 'string') {
-    printMessage('Failed check: obj.agent.name should be a string');
-    return false;
-  }
-  if (obj.input !== undefined && typeof obj.input !== 'string') {
-    printMessage('Failed check: obj.input should be undefined or a string - ' + obj.input);
-    return false;
-  }
-  if (obj.forced_behaviours !== undefined && !isArrayOfType(obj.forced_behaviours, isForcedBehaviour)) {
-    printMessage('Failed check: obj.forced_behaviours should be undefined or an array of ForcedBehaviour');
-    return false;
-  }
-
-  return true;
+  return (
+    (obj.sentence === undefined || obj.sentence === null || typeof obj.sentence === 'string') &&
+    (obj.content === undefined || obj.content === null || typeof obj.content === 'string') &&
+    (typeof obj.output.text === 'string' || obj.output.text === null) &&
+    (obj.output.audio === null || typeof obj.output.audio === 'string') &&
+    typeof obj.agent.name === 'string' &&
+    (obj.input === undefined || typeof obj.input === 'string') &&
+    (obj.forced_behaviours === undefined || isArrayOfType(obj.forced_behaviours, isForcedBehaviour))
+  );
 }
+
+// export function isCarterData(obj: any): obj is CarterData {
+//   function printMessage(message: string): void {
+//     console.log(message);
+//   }
+
+//   if (obj.sentence !== undefined && obj.sentence !== null && typeof obj.sentence !== 'string') {
+//     printMessage('Failed check: obj.sentence should be undefined or a string - ' + obj.sentence);
+//     return false;
+//   }
+//   if (obj.content !== undefined && obj.content !== null && typeof obj.content !== 'string') {
+//     printMessage('Failed check: obj.content should be undefined or a string - ' + obj.content);
+//     return false;
+//   }
+//   if (typeof obj.output.text !== 'string' && obj.output.text !== null) {
+//     printMessage('Failed check: obj.output.text should be a string');
+//     return false;
+//   }
+//   if (obj.output.audio !== null && typeof obj.output.audio !== 'string') {
+//     printMessage('Failed check: obj.output.audio should be null or a string');
+//     return false;
+//   }
+//   if (typeof obj.agent.name !== 'string') {
+//     printMessage('Failed check: obj.agent.name should be a string');
+//     return false;
+//   }
+//   if (obj.input !== undefined && typeof obj.input !== 'string') {
+//     printMessage('Failed check: obj.input should be undefined or a string - ' + obj.input);
+//     return false;
+//   }
+//   if (obj.forced_behaviours !== undefined && !isArrayOfType(obj.forced_behaviours, isForcedBehaviour)) {
+//     printMessage('Failed check: obj.forced_behaviours should be undefined or an array of ForcedBehaviour');
+//     return false;
+//   }
+
+//   return true;
+// }
 
 
 // Type guard for CarterPayload
