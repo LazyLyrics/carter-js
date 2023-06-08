@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 import * as types from '../../types';
 dotenv.config();
 
-
-
 describe('opener', () => {
   jest.setTimeout(60000);
   let carter: Carter;
@@ -14,7 +12,7 @@ describe('opener', () => {
   // TEST WITH VALID INPUT
   test('test opener with valid input', async () => {
     const interaction = await carter.opener('callum');
-    console.log("🚀 ~ file: opener.jest.ts:17 ~ test ~ interaction:", JSON.stringify(interaction, null, 2))
+    console.log('🚀 ~ file: opener.jest.ts:17 ~ test ~ interaction:', JSON.stringify(interaction, null, 2));
 
     expect(types.isCarterInteraction(interaction)).toBeTruthy();
   });

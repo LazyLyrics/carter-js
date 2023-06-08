@@ -189,7 +189,7 @@ class Carter {
       key: this.apiKey,
       user_id: userId,
       speak,
-      personal: true
+      personal: true,
     };
     try {
       response = await fetch(URLS.opener, {
@@ -249,7 +249,7 @@ class Carter {
       key: this.apiKey,
       text,
       speak,
-      user_id: userId
+      user_id: userId,
     };
 
     try {

@@ -23,7 +23,7 @@ describe('Skills', () => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
         };
-        return { output: response || "", skillData: gotSomeDataBruv };
+        return { output: response || '', skillData: gotSomeDataBruv };
       },
       auto: true,
     };
@@ -34,7 +34,7 @@ describe('Skills', () => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
         };
-        return { output: response || "", skillData: gotSomeDataBruv };
+        return { output: response || '', skillData: gotSomeDataBruv };
       },
       auto: false,
     };
@@ -45,7 +45,7 @@ describe('Skills', () => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
         };
-        return { output: response || "", skillData: gotSomeDataBruv };
+        return { output: response || '', skillData: gotSomeDataBruv };
       },
     };
   });
@@ -137,7 +137,10 @@ describe('Skills', () => {
     const responseWeather = await carter.say('Tell me the weather', 'testid');
     helpers.expectSuccessfulCarterInteraction(responseWeather);
     expect(responseWeather.forcedBehaviours).toEqual([{ name: 'weather' }]);
-    console.log("🚀 ~ file: skills.jest.ts:140 ~ test ~ responseWeather.forcedBehaviours:", responseWeather.forcedBehaviours)
+    console.log(
+      '🚀 ~ file: skills.jest.ts:140 ~ test ~ responseWeather.forcedBehaviours:',
+      responseWeather.forcedBehaviours,
+    );
     expect(responseWeather.outputText).toEqual('WEATHER');
     expect(responseWeather.carterData?.output.text).toEqual('WEATHER');
 

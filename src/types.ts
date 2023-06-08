@@ -251,7 +251,6 @@ export function isCarterInteraction(obj: any): obj is CarterInteraction {
 //   return true;
 // }
 
-
 export function isArrayOfType<T>(arr: any, typeGuard: (item: any) => item is T): arr is T[] {
   if (!Array.isArray(arr)) return false;
   for (const item of arr) {
@@ -314,7 +313,6 @@ export function isCarterData(obj: any): obj is CarterData {
 //   return true;
 // }
 
-
 // Type guard for CarterPayload
 export function isCarterPayload(obj: any): obj is CarterPayload {
   return (
@@ -361,10 +359,7 @@ export function isCarterSkillAction(obj: any): obj is CarterSkillAction {
 
 // Type guard for CarterSkillOutput
 export function isCarterSkillOutput(obj: any): obj is CarterSkillOutput {
-  return (
-    typeof obj.output === 'string' &&
-    (obj.skillData === undefined || typeof obj.skillData !== 'undefined')
-  );
+  return typeof obj.output === 'string' && (obj.skillData === undefined || typeof obj.skillData !== 'undefined');
 }
 
 export function isString(obj: any): obj is string {
