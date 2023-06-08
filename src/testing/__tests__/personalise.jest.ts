@@ -11,32 +11,32 @@ describe('personalise', () => {
   });
   // TEST WITH VALID INPUT
   test('test personalise with valid input', async () => {
-    const response = await carter.personalise('This is a sentence which the api is going to personalise');
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', 'test');
     expect(types.isCarterInteraction(response)).toBeTruthy();
   });
   // TEST WITH INVALID INPUT
   test('test opener with invalid input', async () => {
-    await expect(carter.personalise(4 as any)).rejects.toThrowError();
+    await expect(carter.personalise(4 as any, "test")).rejects.toThrowError();
   });
   // TEST WITH ALL SPEAK VALUES
   test('test personalise with speak = true', async () => {
-    const response = await carter.personalise('This is a sentence which the api is going to personalise', true);
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', "test", true);
     expect(types.isCarterInteraction(response)).toBeTruthy();
   });
 
   test('test personalise with speak = false', async () => {
-    const response = await carter.personalise('This is a sentence which the api is going to personalise', false);
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', "test", false);
     expect(types.isCarterInteraction(response)).toBeTruthy();
   });
 
   test('test personalise with speak = undefined', async () => {
-    const response = await carter.personalise('This is a sentence which the api is going to personalise', undefined);
+    const response = await carter.personalise('This is a sentence which the api is going to personalise', "test", undefined);
     expect(types.isCarterInteraction(response)).toBeTruthy();
   });
 
   test('test personalise with speak = number', async () => {
     const shouldError = async () => {
-      await carter.personalise('This is a sentence which the api is going to personalise', 2 as any);
+      await carter.personalise('This is a sentence which the api is going to personalise', "test", 2 as any);
     };
     await expect(shouldError).rejects.toThrowError();
   });

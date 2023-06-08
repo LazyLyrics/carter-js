@@ -34,7 +34,7 @@ describe('say', () => {
     await expect(carter.say(1 as any, 'callum')).rejects.toThrowError();
   });
 
-  test('should throw an error with invalid playerId', async () => {
+  test('should throw an error with invalid userId', async () => {
     await expect(carter.say('Hello', 1 as any)).rejects.toThrowError();
   });
 

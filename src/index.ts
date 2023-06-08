@@ -17,9 +17,9 @@ import now from 'performance-now';
 import * as logging from './logger';
 
 export const URLS = {
-  say: 'https://api.carterlabs.ai/chat',
-  personalise: 'https://api.carterlabs.ai/personalise',
-  opener: 'https://api.carterlabs.ai/opener',
+  say: 'https://unstable.carterlabs.ai/api/chat',
+  personalise: 'https://unstable.carterlabs.ai/api/personalise',
+  opener: 'https://unstable.carterlabs.ai/api/opener  ',
 };
 
 /**
@@ -56,15 +56,15 @@ class Carter {
   // --------------------------------
   // SAY
   // --------------------------------
-  async say(text: string, playerId?: string, speak?: boolean): Promise<CarterInteraction> {
+  async say(text: string, userId?: string, speak?: boolean): Promise<CarterInteraction> {
     if (!text || typeof text !== 'string') {
       throw Error(`Carter.say() requires a string as the first parameter. Received: ${text}.`);
     }
 
-    if (!playerId) {
-      playerId = uuidv1();
-    } else if (playerId && typeof playerId !== 'string') {
-      throw Error(`Carter.say() requires a string as the second parameter. Received: ${playerId}.`);
+    if (!userId) {
+      userId = uuidv1();
+    } else if (userId && typeof userId !== 'string') {
+      throw Error(`Carter.say() requires a string as the second parameter. Received: ${userId}.`);
     }
 
     if (speak) {
@@ -76,7 +76,7 @@ class Carter {
     }
 
     const interactionID = uuidv1();
-    this.logger.debug(`Carter.say() called with text: ${text} and playerId: ${playerId}.`, { interactionID });
+    this.logger.debug(`Carter.say() called with text: ${text} and userId: ${userId}.`, { interactionID });
     const start = now();
     const triggeredSkills: CarterSkillInstance[] = [];
     const executedSkills: CarterSkillInstance[] = [];
@@ -88,7 +88,7 @@ class Carter {
     const payload: CarterPayload = {
       key: this.apiKey,
       text,
-      playerId,
+      user_id: userId,
       speak,
     };
     try {
@@ -110,7 +110,7 @@ class Carter {
         this.logger.warn(`Carter.say() failed to parse response as JSON.`, { interactionID });
       }
     }
-    if (response && data) {
+    if (response && data && data.forced_behaviours) {
       for (const behaviour of data.forced_behaviours as ForcedBehaviour[]) {
         this.logger.debug(`Carter.say() found a forced behaviour: ${behaviour.name}. Checking for registered skill.`, {
           interactionID,
@@ -164,12 +164,12 @@ class Carter {
   // ---------------------------------
   // OPENER
   // ---------------------------------
-  async opener(playerId?: string, speak?: boolean | undefined): Promise<CarterInteraction> {
-    if (playerId && typeof playerId !== 'string') {
-      throw Error(`Carter.opener() requires a string as the first parameter. Received: ${playerId}.`);
+  async opener(userId?: string, speak?: boolean | undefined): Promise<CarterInteraction> {
+    if (userId && typeof userId !== 'string') {
+      throw Error(`Carter.opener() requires a string as the first parameter. Received: ${userId}.`);
     }
-    if (!playerId) {
-      playerId = uuidv1();
+    if (!userId) {
+      userId = uuidv1();
     }
     if (speak) {
       if (typeof speak !== 'boolean') {
@@ -180,15 +180,16 @@ class Carter {
     }
 
     const interactionID = uuidv1();
-    this.logger.debug(`Carter.opener() called with playerId: ${playerId}.`, { interactionID });
+    this.logger.debug(`Carter.opener() called with userId: ${userId}.`, { interactionID });
     const start = now();
     let data: CarterData | null = null;
     let errorMessage: string | null = null;
     let response: Response | null = null;
     const payload: CarterOpenerPayload = {
       key: this.apiKey,
-      playerId,
+      user_id: userId,
       speak,
+      personal: true
     };
     try {
       response = await fetch(URLS.opener, {
@@ -227,7 +228,7 @@ class Carter {
   // ---------------------------------
   // PERSONALISE
   // ---------------------------------
-  async personalise(text: string, speak?: boolean | undefined): Promise<CarterInteraction> {
+  async personalise(text: string, userId: string, speak?: boolean | undefined): Promise<CarterInteraction> {
     if (!text || typeof text !== 'string') {
       throw Error(`Carter.personalise() requires a string as the first parameter. Received: ${text}.`);
     }
@@ -248,6 +249,7 @@ class Carter {
       key: this.apiKey,
       text,
       speak,
+      user_id: userId
     };
 
     try {

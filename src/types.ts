@@ -90,20 +90,22 @@ export interface CarterData {
 export interface CarterPayload {
   key: string;
   text: string;
-  playerId: string;
+  user_id: string;
   speak: boolean;
 }
 
 export interface CarterOpenerPayload {
   key: string;
-  playerId: string;
+  user_id: string;
   speak: boolean;
+  personal: boolean;
 }
 
 export interface CarterPersonalisePayload {
   key: string;
   text: string;
   speak: boolean;
+  user_id: string;
 }
 
 export type CarterSkill = {
@@ -270,7 +272,6 @@ export function isCarterData(obj: any): obj is CarterData {
     (obj.content === undefined || obj.content === null || typeof obj.content === 'string') &&
     (typeof obj.output.text === 'string' || obj.output.text === null) &&
     (obj.output.audio === null || typeof obj.output.audio === 'string') &&
-    typeof obj.agent.name === 'string' &&
     (obj.input === undefined || typeof obj.input === 'string') &&
     (obj.forced_behaviours === undefined || isArrayOfType(obj.forced_behaviours, isForcedBehaviour))
   );
@@ -319,7 +320,7 @@ export function isCarterPayload(obj: any): obj is CarterPayload {
   return (
     typeof obj.key === 'string' &&
     typeof obj.text === 'string' &&
-    typeof obj.playerId === 'string' &&
+    typeof obj.user_id === 'string' &&
     typeof obj.speak === 'boolean'
   );
 }
@@ -328,8 +329,9 @@ export function isCarterPayload(obj: any): obj is CarterPayload {
 export function isCarterOpenerPayload(obj: any): obj is CarterOpenerPayload {
   return (
     typeof obj.key === 'string' &&
-    typeof obj.playerId === 'string' &&
-    typeof obj.speak === 'boolean'
+    typeof obj.user_id === 'string' &&
+    typeof obj.speak === 'boolean' &&
+    typeof obj.personal === 'boolean'
   );
 }
 
@@ -338,7 +340,8 @@ export function isCarterPersonalisePayload(obj: any): obj is CarterPersonalisePa
   return (
     typeof obj.key === 'string' &&
     typeof obj.text === 'string' &&
-    typeof obj.speak === 'boolean'
+    typeof obj.speak === 'boolean' &&
+    typeof obj.user_id === 'string'
   );
 }
 

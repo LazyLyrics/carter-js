@@ -14,6 +14,8 @@ describe('opener', () => {
   // TEST WITH VALID INPUT
   test('test opener with valid input', async () => {
     const interaction = await carter.opener('callum');
+    console.log("🚀 ~ file: opener.jest.ts:17 ~ test ~ interaction:", JSON.stringify(interaction, null, 2))
+
     expect(types.isCarterInteraction(interaction)).toBeTruthy();
   });
   // TEST WITH INVALID INPUT

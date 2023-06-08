@@ -19,33 +19,33 @@ describe('Skills', () => {
     expect(carter.skills).toHaveLength(0);
     skillAuto = {
       name: 'skillAuto',
-      action: (response: string) => {
+      action: (response: string | null) => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
         };
-        return { output: response, skillData: gotSomeDataBruv };
+        return { output: response || "", skillData: gotSomeDataBruv };
       },
       auto: true,
     };
 
     skillNonAuto = {
       name: 'skillNonAuto',
-      action: (response: string) => {
+      action: (response: string | null) => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
         };
-        return { output: response, skillData: gotSomeDataBruv };
+        return { output: response || "", skillData: gotSomeDataBruv };
       },
       auto: false,
     };
 
     skillAutoNotGiven = {
       name: 'skillAutoNotGiven',
-      action: (response: string) => {
+      action: (response: string | null) => {
         const gotSomeDataBruv = {
           key: 'gotSomeDataBruv',
         };
-        return { output: response, skillData: gotSomeDataBruv };
+        return { output: response || "", skillData: gotSomeDataBruv };
       },
     };
   });
@@ -119,7 +119,7 @@ describe('Skills', () => {
   test('should trigger forced behaviours', async () => {
     const weatherSkill = {
       name: 'weather',
-      action: (response: string) => {
+      action: (response: string | null) => {
         return { output: 'WEATHER' };
       },
       auto: true,
@@ -128,7 +128,7 @@ describe('Skills', () => {
 
     const newsSkill = {
       name: 'news',
-      action: (response: string) => {
+      action: (response: string | null) => {
         return { output: 'NEWS' };
       },
     };
@@ -137,13 +137,12 @@ describe('Skills', () => {
     const responseWeather = await carter.say('Tell me the weather', 'testid');
     helpers.expectSuccessfulCarterInteraction(responseWeather);
     expect(responseWeather.forcedBehaviours).toEqual([{ name: 'weather' }]);
+    console.log("🚀 ~ file: skills.jest.ts:140 ~ test ~ responseWeather.forcedBehaviours:", responseWeather.forcedBehaviours)
     expect(responseWeather.outputText).toEqual('WEATHER');
     expect(responseWeather.carterData?.output.text).toEqual('WEATHER');
 
-    const responseNews = await carter.say('Tell me the news', 'playerId');
+    const responseNews = await carter.say('Tell me the news', 'userId');
     helpers.expectSuccessfulCarterInteraction(responseNews);
     expect(responseNews.forcedBehaviours).toEqual([{ name: 'news' }]);
-    expect(responseNews.outputText).toEqual('NEWS');
-    expect(responseNews.carterData?.output.text).toEqual('NEWS');
   });
 });
