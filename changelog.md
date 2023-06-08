@@ -6,6 +6,15 @@ Please note that this project adheres to [Semantic Versioning](https://semver.or
 
 I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed. Previous versions of carter-js are always likely to be outdated as the API progresses.
 
+## [4.0] 2023-06-09 - Updates to Carter Unstable API
+
+### Changed
+
+- `carter-js` now uses Carter's unstable API endpoints.
+- `playerId` parameter has been renamed to userId in all functions. This is to reflect the change in the API.
+- `carter.personalise` not takes a userId as its second argument. `personalise(text: string, userId: string, speak?: boolean | undefined)`.
+- Other changes related to the api can be found in the carter docs, this changelog covers only the changes related to carter-js usage.
+
 ## [3.0] 2023-05-09
 
 ### Changed
