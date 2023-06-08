@@ -1,7 +1,7 @@
 # Carter JS
 
 **[TypeDocs](https://lazylyrics.github.io/carter-js/) |
-[Changelog](https://github.com/LazyLyrics/carter-js/blob/main/changelog.md) | [Full Documentation](https://lazylyrics.gitbook.io/carter-js-v2/)**
+[Changelog](https://github.com/LazyLyrics/carter-js/blob/main/changelog.md) | [Full Documentation](https://lazylyrics.gitbook.io/carter-js-v3/)**
 
 *`carter-js` documentation is a work in progress. Objects described here and in the full documentation can be found in the TypeDoc documentation if you need more details. That documentation is fully updated at all times, though the annotations and descriptions are also a work in progress.*
 
