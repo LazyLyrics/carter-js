@@ -9,6 +9,8 @@
 
 **Please note:** carter-js is in its infancy and errors are likely. If you experience any issues please feel free to open a [GitHub](https://github.com/LazyLyrics/carter-js) issue or contact me through the [Carter](https://www.carterapi.com/) Discord server in order to help carter-js improve.
 
+For support and general chit chat, join the [discord](https://discord.gg/4w2Hs9QU)!
+
 ## Installation
 
 ```shellscript
