@@ -6,6 +6,12 @@ Please note that this project adheres to [Semantic Versioning](https://semver.or
 
 I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed. Previous versions of carter-js are always likely to be outdated as the API progresses.
 
+## [4.1] 2023-06-25 - Updates back to production URL
+
+### Changed
+
+- `carter-js` now uses Carter's production API endpoints, which have been upgraded to the previously unstable API endpoints.
+
 ## [4.0] 2023-06-09 - Updates to Carter Unstable API
 
 ### Changed
