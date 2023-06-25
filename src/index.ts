@@ -17,9 +17,9 @@ import now from 'performance-now';
 import * as logging from './logger';
 
 export const URLS = {
-  say: 'https://unstable.carterlabs.ai/api/chat',
-  personalise: 'https://unstable.carterlabs.ai/api/personalise',
-  opener: 'https://unstable.carterlabs.ai/api/opener  ',
+  say: 'https://api.carterlabs.ai//api/chat',
+  personalise: 'https://api.carterlabs.ai//api/personalise',
+  opener: 'https://api.carterlabs.ai//api/opener  ',
 };
 
 /**
