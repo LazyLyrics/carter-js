@@ -290,8 +290,6 @@ class Carter {
 
     const interactionID = uuidv1();
     this.logger.debug(`Carter.context() called with context: ${context} and userId: ${userId}.`, { interactionID });
-    const start = now();
-    let data: CarterData | null = null;
     let response: Response | null = null;
     let errorMessage: string | null = null;
     const payload: CarterContextPayload = {
@@ -323,9 +321,6 @@ class Carter {
     } else {
       return {success: false, error: 'Unknown error, didn\t get response from api.'}
     }
-
-
-
   }
 
 
