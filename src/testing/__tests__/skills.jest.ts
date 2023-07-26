@@ -13,7 +13,7 @@ describe('Skills', () => {
   let skillNonAuto: CarterSkill;
   let skillAutoNotGiven: CarterSkill;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const API_KEY = process.env.CARTER_API_KEY as string;
     carter = new Carter(API_KEY);
     expect(carter.skills).toHaveLength(0);
@@ -48,6 +48,7 @@ describe('Skills', () => {
         return { output: response || '', skillData: gotSomeDataBruv };
       },
     };
+    await new Promise((r) => setTimeout(r, 2000));
   });
 
   // REGISTER UNIQUE SKILLS - AUTO AND NOT

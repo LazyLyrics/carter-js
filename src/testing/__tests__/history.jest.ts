@@ -8,9 +8,10 @@ describe('history', () => {
 
   let carter: Carter;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const API_KEY = process.env.CARTER_API_KEY as string;
     carter = new Carter(API_KEY);
+    await new Promise((r) => setTimeout(r, 2000));
   });
 
   // TEST HISTORY WITH ONE ENTRY

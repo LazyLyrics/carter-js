@@ -6,6 +6,19 @@ Please note that this project adheres to [Semantic Versioning](https://semver.or
 
 I will continue to build carter-js with the intention of maintaining backwards compatibility, but this is not guaranteed. Previous versions of carter-js are always likely to be outdated as the API progresses.
 
+## [4.2] 2023-07-26 - Context!
+
+This update brings context support to carter-js, as well as supporting the audio feature for the chat endpoint
+
+### Added
+
+- Added `carter.context()` which takes a context string and userId and returns a { success: boolean, error: string } object. See [the docs](https://docs.carterlabs.ai/api/context-new) for more details.
+- Added `carter.sayAudio()` which operates the same as `carter.say()` but takes a base 64 audio clip instead of a text string. See [the docs](https://docs.carterlabs.ai/api/chat#audio-request)
+
+### Changed
+
+- `carter.say()` can now take an extra context parameter which will be passed to the API. See [the docs](https://docs.carterlabs.ai/api/chat#text-request)
+
 ## [4.1] 2023-06-25 - Updates back to production URL
 
 ### Changed

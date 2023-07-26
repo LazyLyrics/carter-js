@@ -42,10 +42,18 @@ A Carter object contains all the necessary methods for interacting with your Car
 
 `Carter.say()` sends a fetch request, extracts the useful elements of the response and returns a `CarterInteraction` object.
 
+### Take advantage of context
+
+```js
+  // Send a message to your Carter agent with some extra context
+  const interaction = await carter.say("Hello", 'your_player_id', 'User is very confused')
+  const outputText = interaction.outputText
+```
+
 ## Conversation History
 
 Your Carter object keeps a history of interactions with your carter agent. You can access this through `carter.history`. `carter.history` is an array containing `CarterInteraction` objects.
 
 This entire array is accessible in full, and is ordered with the most recent interaction at the front of the array. For convenience, you can also invoke `Carter.latest()` which will return the most recent interaction.
 
-For more information and full documentation on `carter-js`'s see the [GitBook Docs](https://lazylyrics.gitbook.io/carter-js-v3/).
+For more information and full documentation on `carter-js` - including audio input, the context endpoint, and more see the [GitBook Docs](https://lazylyrics.gitbook.io/carter-js-v3/).

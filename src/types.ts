@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import { v1 as uuidv1 } from 'uuid';
 import now from 'performance-now';
 
 // INTERFACE TYPES
@@ -15,7 +14,7 @@ export interface CarterInteraction {
   type: string;
   characterName: string | null;
   id: string;
-  payload: CarterPayload | CarterOpenerPayload | CarterPersonalisePayload;
+  payload: CarterPayload | CarterOpenerPayload | CarterPersonalisePayload | CarterAudioPayload | CarterContextPayload;
   carterData: CarterData | null;
   timeTaken: number;
   isoTimestamp: string;
@@ -37,7 +36,7 @@ export type InteractionData = {
   response: Response | null;
   carterData: CarterData | null;
   start: number;
-  payload: CarterPayload | CarterOpenerPayload | CarterPersonalisePayload;
+  payload: CarterPayload | CarterOpenerPayload | CarterPersonalisePayload | CarterAudioPayload | CarterContextPayload;
   triggeredSkills: CarterSkillInstance[] | null;
   executedSkills: CarterSkillInstance[] | null;
   errorMessage: string | null;
@@ -92,6 +91,21 @@ export interface CarterPayload {
   text: string;
   user_id: string;
   speak: boolean;
+  context?: string;
+}
+
+export interface CarterAudioPayload {
+  key: string;
+  audio: string;
+  user_id: string;
+  speak: boolean;
+  context?: string;
+}
+
+export interface CarterContextPayload {
+  key: string;
+  context: string;
+  user_id: string;
 }
 
 export interface CarterOpenerPayload {
@@ -158,7 +172,7 @@ export function isCarterInteraction(obj: any): obj is CarterInteraction {
     typeof obj.type === 'string' &&
     (typeof obj.characterName === 'string' || obj.characterName === null) &&
     typeof obj.id === 'string' &&
-    (isCarterPayload(obj.payload) || isCarterOpenerPayload(obj.payload) || isCarterPersonalisePayload(obj.payload)) &&
+    (isCarterPayload(obj.payload) || isCarterOpenerPayload(obj.payload) || isCarterPersonalisePayload(obj.payload)) || isCarterAudioPayload(obj.payload) || isCarterContextPayload(obj.payload) &&
     (obj.carterData === null || isCarterData(obj.carterData)) &&
     typeof obj.timeTaken === 'number' &&
     typeof obj.isoTimestamp === 'string' &&
@@ -319,7 +333,28 @@ export function isCarterPayload(obj: any): obj is CarterPayload {
     typeof obj.key === 'string' &&
     typeof obj.text === 'string' &&
     typeof obj.user_id === 'string' &&
-    typeof obj.speak === 'boolean'
+    (obj.speak === undefined || typeof obj.speak === 'boolean') &&
+    (obj.context === undefined || typeof obj.context === 'string')
+  );
+}
+
+// Type guard for CarterAudioPayload
+export function isCarterAudioPayload(obj: any): obj is CarterAudioPayload {
+  return (
+    typeof obj.key === 'string' &&
+    typeof obj.audio === 'string' &&
+    typeof obj.user_id === 'string' &&
+    (obj.speak === undefined || typeof obj.speak === 'boolean') &&
+    (obj.context === undefined || typeof obj.context === 'string')
+  );
+}
+
+// Type guard for CarterContextPayload
+export function isCarterContextPayload(obj: any): obj is CarterContextPayload {
+  return (
+    typeof obj.key === 'string' &&
+    typeof obj.context === 'string' &&
+    typeof obj.user_id === 'string'
   );
 }
 

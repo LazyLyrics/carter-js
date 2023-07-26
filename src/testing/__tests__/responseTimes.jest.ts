@@ -17,8 +17,9 @@ jest.setTimeout(60000);
 
 describe('response times', () => {
   let carter: Carter;
-  beforeEach(() => {
+  beforeEach(async () => {
     carter = new Carter(process.env.CARTER_API_KEY as string);
+    await new Promise((r) => setTimeout(r, 2000));
   });
 
   // TEST WITH INCORRECT MINUTES TYPE

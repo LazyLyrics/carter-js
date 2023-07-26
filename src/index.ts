@@ -8,6 +8,8 @@ import {
   Logger,
   isCarterSkill,
   CarterOpenerPayload,
+  CarterAudioPayload,
+  CarterContextPayload,
   CarterPersonalisePayload,
   ForcedBehaviour,
 } from './types';
@@ -17,9 +19,10 @@ import now from 'performance-now';
 import * as logging from './logger';
 
 export const URLS = {
-  say: 'https://api.carterlabs.ai//api/chat',
-  personalise: 'https://api.carterlabs.ai//api/personalise',
-  opener: 'https://api.carterlabs.ai//api/opener  ',
+  say: 'https://api.carterlabs.ai/chat',
+  personalise: 'https://api.carterlabs.ai/personalise',
+  opener: 'https://api.carterlabs.ai/opener',
+  context: 'https://api.carterlabs.ai/context',
 };
 
 /**
@@ -56,7 +59,7 @@ class Carter {
   // --------------------------------
   // SAY
   // --------------------------------
-  async say(text: string, userId?: string, speak?: boolean): Promise<CarterInteraction> {
+  async say(text: string, userId?: string, context?: string, speak?: boolean): Promise<CarterInteraction> {
     if (!text || typeof text !== 'string') {
       throw Error(`Carter.say() requires a string as the first parameter. Received: ${text}.`);
     }
@@ -88,6 +91,116 @@ class Carter {
     const payload: CarterPayload = {
       key: this.apiKey,
       text,
+      user_id: userId,
+      speak,
+      context
+    };
+    try {
+      response = await fetch(URLS.say, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (e) {
+      this.logger.warn(`Carter.say() failed to fetch.`, { interactionID });
+      errorMessage = (e as Error).message;
+      response = null;
+    }
+    if (response) {
+      try {
+        data = (await response.json()) as CarterData;
+      } catch (e) {
+        data = null;
+        this.logger.warn(`Carter.say() failed to parse response as JSON.`, { interactionID });
+      }
+    }
+    if (response && data && data.forced_behaviours) {
+      for (const behaviour of data.forced_behaviours as ForcedBehaviour[]) {
+        this.logger.debug(`Carter.say() found a forced behaviour: ${behaviour.name}. Checking for registered skill.`, {
+          interactionID,
+        });
+        const skill = this.findSkill(behaviour.name);
+        let newOutput;
+        if (skill) {
+          const skillInstance = new CarterSkillInstance(skill, data.output.text);
+          if (skill.auto) {
+            this.logger.debug(
+              `Carter.say() found a registered skill for ${behaviour.name} with auto set to true. Executing and adding to triggered skills.`,
+              { interactionID },
+            );
+            try {
+              newOutput = await skillInstance.execute();
+            } catch (e) {
+              this.logger.warn(`Carter.say() failed to execute skill.`, { interactionID });
+              skillInstance.errors.push((e as Error).message);
+            }
+            if (newOutput) {
+              data.output.text = newOutput;
+            }
+            executedSkills.push(skillInstance);
+          } else {
+            this.logger.debug(
+              `Carter.say() found a registered skill for ${behaviour.name} with auto set to false. Adding to triggered skills.`,
+              { interactionID },
+            );
+            triggeredSkills.push(skillInstance);
+          }
+        }
+      }
+    }
+
+    interaction = await buildInteraction({
+      id: interactionID,
+      type: 'say',
+      response,
+      carterData: data,
+      payload,
+      start,
+      triggeredSkills,
+      executedSkills,
+      errorMessage: null,
+    });
+    this.history.unshift(interaction);
+    this.logger.debug(`Carter.say() finished.`, { interactionID });
+    return interaction;
+  }
+
+  // ---------------------------------
+  // Say Audio
+  // ---------------------------------
+
+  async sayAudio(audio: string, userId?: string, speak?: boolean): Promise<CarterInteraction> {
+    if (!audio || typeof audio !== 'string') {
+      throw Error(`Carter.sayAudio() requires a string as the first parameter. Received: ${audio}.`);
+    }
+
+    if (!userId) {
+      userId = uuidv1();
+    } else if (userId && typeof userId !== 'string') {
+      throw Error(`Carter.sayAudio() requires a string as the second parameter. Received: ${userId}.`);
+    }
+
+    if (speak) {
+      if (typeof speak !== 'boolean') {
+        throw Error(`Carter.sayAudio() requires a boolean as speak parameter. Received: ${speak}.`);
+      }
+    } else {
+      speak = this.speakDefault as boolean;
+    }
+
+    const interactionID = uuidv1();
+    this.logger.debug(`Carter.sayAudio() called with text: ${audio} and userId: ${userId}.`, { interactionID });
+    const start = now();
+    const triggeredSkills: CarterSkillInstance[] = [];
+    const executedSkills: CarterSkillInstance[] = [];
+    let response: Response | null = null;
+    let data: CarterData | null = null;
+    let interaction: CarterInteraction;
+    let errorMessage: string | null = null;
+
+    const payload: CarterAudioPayload = {
+      key: this.apiKey,
+      audio,
       user_id: userId,
       speak,
     };
@@ -160,6 +273,62 @@ class Carter {
     this.logger.debug(`Carter.say() finished.`, { interactionID });
     return interaction;
   }
+
+  // ---------------------------------
+  // CONTEXT
+  // ---------------------------------
+  async context(context: string, userId?: string): Promise<{success: boolean, error: string}> {
+    if (!context || typeof context !== 'string') {
+      throw Error(`Carter.context() requires a string as the first parameter. Received: ${context}.`);
+    }
+
+    if (!userId) {
+      userId = uuidv1();
+    } else if (userId && typeof userId !== 'string') {
+      throw Error(`Carter.sayAudio() requires a string as the second parameter. Received: ${userId}.`);
+    }
+
+    const interactionID = uuidv1();
+    this.logger.debug(`Carter.context() called with context: ${context} and userId: ${userId}.`, { interactionID });
+    const start = now();
+    let data: CarterData | null = null;
+    let response: Response | null = null;
+    let errorMessage: string | null = null;
+    const payload: CarterContextPayload = {
+      key: this.apiKey,
+      context,
+      user_id: userId,
+    };
+    try {
+      response = await fetch(URLS.context, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    catch (e) {
+      this.logger.warn(`Carter.context() failed to fetch.`, { interactionID });
+      errorMessage = (e as Error).message;
+      return {success: false, error: errorMessage}
+    }
+    if (response) {
+      try {
+        const data = await response.json() as {success: boolean, error: string};
+        return data
+      } catch (e) {
+        this.logger.warn(`Carter.context() failed to parse response as JSON.`, { interactionID });
+        errorMessage = (e as Error).message;
+        return {success: false, error: errorMessage}
+      }
+    } else {
+      return {success: false, error: 'Unknown error, didn\t get response from api.'}
+    }
+
+
+
+  }
+
+
 
   // ---------------------------------
   // OPENER

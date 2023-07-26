@@ -6,8 +6,9 @@ dotenv.config();
 describe('personalise', () => {
   jest.setTimeout(60000);
   let carter: Carter;
-  beforeEach(() => {
+  beforeEach(async () => {
     carter = new Carter(process.env.CARTER_API_KEY as string);
+    await new Promise((r) => setTimeout(r, 2000));
   });
   // TEST WITH VALID INPUT
   test('test personalise with valid input', async () => {

@@ -8,14 +8,22 @@ jest.setTimeout(60000);
 describe('say', () => {
   let carter: Carter;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const API_KEY = process.env.CARTER_API_KEY as string;
     carter = new Carter(API_KEY);
+    await new Promise((r) => setTimeout(r, 2000));
   });
 
   // BOTH VALID INPUTS
   test('should return an interaction with carter data', async () => {
     const response = await carter.say('Hello, this is a test message.', 'callum');
+    helpers.expectSuccessfulCarterInteraction(response);
+  });
+
+  // WITH CONTEXT
+  test('should take context and return an interaction with carter data', async () => {
+    const response = await carter.say('Hello, this is a test message.', 'callum', "Callum is testing Carter's say function.")
+    console.log('🚀 ~ file: say.jest.ts:58 ~ test ~ response:', response)
     helpers.expectSuccessfulCarterInteraction(response);
   });
 

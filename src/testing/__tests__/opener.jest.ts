@@ -6,7 +6,7 @@ dotenv.config();
 describe('opener', () => {
   jest.setTimeout(60000);
   let carter: Carter;
-  beforeEach(() => {
+  beforeEach(async () => {
     carter = new Carter(process.env.CARTER_API_KEY as string);
   });
   // TEST WITH VALID INPUT
