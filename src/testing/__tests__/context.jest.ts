@@ -12,8 +12,8 @@ describe('context', () => {
   });
   // TEST WITH VALID INPUT
   test('test context with valid input', async () => {
-    const response = await carter.context('Callum is testing Carter\'s context function.', 'callum');
-    console.log('🚀 ~ file: context.jest.ts:17 ~ test ~ response:', response)
+    const response = await carter.context("Callum is testing Carter's context function.", 'callum');
+    console.log('🚀 ~ file: context.jest.ts:17 ~ test ~ response:', response);
     expect(response.success).toBeTruthy();
   });
   // TEST WITH INVALID INPUT
@@ -22,8 +22,7 @@ describe('context', () => {
   });
   // TEST WITH NO PLAYER ID
   test('test context with no player id', async () => {
-    const response = await carter.context('Callum is testing Carter\'s context function.');
+    const response = await carter.context("Callum is testing Carter's context function.");
     expect(response.success).toBeTruthy();
   });
-
 });

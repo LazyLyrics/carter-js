@@ -169,22 +169,26 @@ export class CarterSkillInstance {
 
 export function isCarterInteraction(obj: any): obj is CarterInteraction {
   return (
-    typeof obj.type === 'string' &&
-    (typeof obj.characterName === 'string' || obj.characterName === null) &&
-    typeof obj.id === 'string' &&
-    (isCarterPayload(obj.payload) || isCarterOpenerPayload(obj.payload) || isCarterPersonalisePayload(obj.payload)) || isCarterAudioPayload(obj.payload) || isCarterContextPayload(obj.payload) &&
-    (obj.carterData === null || isCarterData(obj.carterData)) &&
-    typeof obj.timeTaken === 'number' &&
-    typeof obj.isoTimestamp === 'string' &&
-    (obj.url === null || typeof obj.url === 'string') &&
-    (obj.ok === null || typeof obj.ok === 'boolean') &&
-    (obj.statusCode === null || typeof obj.statusCode === 'number') &&
-    (obj.statusMessage === null || typeof obj.statusMessage === 'string') &&
-    (obj.outputText === null || typeof obj.outputText === 'string') &&
-    (obj.outputAudio === null || typeof obj.outputAudio === 'string') &&
-    (obj.forcedBehaviours === null || isArrayOfType(obj.forcedBehaviours, isForcedBehaviour)) &&
-    (obj.triggeredSkills === null || isArrayOfType(obj.triggeredSkills, isCarterSkillInstance)) &&
-    (obj.executedSkills === null || isArrayOfType(obj.executedSkills, isCarterSkillInstance))
+    (typeof obj.type === 'string' &&
+      (typeof obj.characterName === 'string' || obj.characterName === null) &&
+      typeof obj.id === 'string' &&
+      (isCarterPayload(obj.payload) ||
+        isCarterOpenerPayload(obj.payload) ||
+        isCarterPersonalisePayload(obj.payload))) ||
+    isCarterAudioPayload(obj.payload) ||
+    (isCarterContextPayload(obj.payload) &&
+      (obj.carterData === null || isCarterData(obj.carterData)) &&
+      typeof obj.timeTaken === 'number' &&
+      typeof obj.isoTimestamp === 'string' &&
+      (obj.url === null || typeof obj.url === 'string') &&
+      (obj.ok === null || typeof obj.ok === 'boolean') &&
+      (obj.statusCode === null || typeof obj.statusCode === 'number') &&
+      (obj.statusMessage === null || typeof obj.statusMessage === 'string') &&
+      (obj.outputText === null || typeof obj.outputText === 'string') &&
+      (obj.outputAudio === null || typeof obj.outputAudio === 'string') &&
+      (obj.forcedBehaviours === null || isArrayOfType(obj.forcedBehaviours, isForcedBehaviour)) &&
+      (obj.triggeredSkills === null || isArrayOfType(obj.triggeredSkills, isCarterSkillInstance)) &&
+      (obj.executedSkills === null || isArrayOfType(obj.executedSkills, isCarterSkillInstance)))
   );
 }
 
@@ -351,11 +355,7 @@ export function isCarterAudioPayload(obj: any): obj is CarterAudioPayload {
 
 // Type guard for CarterContextPayload
 export function isCarterContextPayload(obj: any): obj is CarterContextPayload {
-  return (
-    typeof obj.key === 'string' &&
-    typeof obj.context === 'string' &&
-    typeof obj.user_id === 'string'
-  );
+  return typeof obj.key === 'string' && typeof obj.context === 'string' && typeof obj.user_id === 'string';
 }
 
 // Type guard for CarterOpenerPayload

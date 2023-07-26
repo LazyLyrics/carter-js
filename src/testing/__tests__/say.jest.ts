@@ -22,8 +22,12 @@ describe('say', () => {
 
   // WITH CONTEXT
   test('should take context and return an interaction with carter data', async () => {
-    const response = await carter.say('Hello, this is a test message.', 'callum', "Callum is testing Carter's say function.")
-    console.log('🚀 ~ file: say.jest.ts:58 ~ test ~ response:', response)
+    const response = await carter.say(
+      'Hello, this is a test message.',
+      'callum',
+      "Callum is testing Carter's say function.",
+    );
+    console.log('🚀 ~ file: say.jest.ts:58 ~ test ~ response:', response);
     helpers.expectSuccessfulCarterInteraction(response);
   });
 

@@ -93,7 +93,7 @@ class Carter {
       text,
       user_id: userId,
       speak,
-      context
+      context,
     };
     try {
       response = await fetch(URLS.say, {
@@ -277,7 +277,7 @@ class Carter {
   // ---------------------------------
   // CONTEXT
   // ---------------------------------
-  async context(context: string, userId?: string): Promise<{success: boolean, error: string}> {
+  async context(context: string, userId?: string): Promise<{ success: boolean; error: string }> {
     if (!context || typeof context !== 'string') {
       throw Error(`Carter.context() requires a string as the first parameter. Received: ${context}.`);
     }
@@ -303,27 +303,24 @@ class Carter {
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
       });
-    }
-    catch (e) {
+    } catch (e) {
       this.logger.warn(`Carter.context() failed to fetch.`, { interactionID });
       errorMessage = (e as Error).message;
-      return {success: false, error: errorMessage}
+      return { success: false, error: errorMessage };
     }
     if (response) {
       try {
-        const data = await response.json() as {success: boolean, error: string};
-        return data
+        const data = (await response.json()) as { success: boolean; error: string };
+        return data;
       } catch (e) {
         this.logger.warn(`Carter.context() failed to parse response as JSON.`, { interactionID });
         errorMessage = (e as Error).message;
-        return {success: false, error: errorMessage}
+        return { success: false, error: errorMessage };
       }
     } else {
-      return {success: false, error: 'Unknown error, didn\t get response from api.'}
+      return { success: false, error: 'Unknown error, didn\t get response from api.' };
     }
   }
-
-
 
   // ---------------------------------
   // OPENER
